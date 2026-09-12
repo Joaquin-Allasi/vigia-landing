@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIGÍA · Plataforma de Videoanalítica Urbana con IA | El Agustino & UNMSM</title>
-  <meta name="description" content="Plataforma de videoanalítica urbana con inteligencia artificial en tiempo real para la red de 233 cámaras del Distrito de El Agustino. Iniciativa de innovación tecnológica UNMSM y vecinos agustinianos.">
+  <title>VIGÍA · Inteligencia Artificial para la Seguridad Urbana de El Agustino | Concurso UPC</title>
+  <meta name="description" content="Plataforma de videoanalítica urbana con inteligencia artificial On-Premise para las 233 cámaras de El Agustino. Proyecto de innovación UNMSM para el Concurso de Innovación UPC 2026.">
   
-  <!-- Tipografías de primer nivel: Newsreader (editorial serif), Plus Jakarta Sans (interfaz), JetBrains Mono (código y métricas) -->
+  <!-- Tipografía Editorial y Moderna: Newsreader (editorial serif), Plus Jakarta Sans (interfaz), JetBrains Mono (técnico) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Leaflet CSS y JS para el mapa táctico interactivo -->
+  <!-- Leaflet CSS y JS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
@@ -28,44 +28,35 @@
         extend: {
           colors: {
             obsidian: {
-              950: '#07080A',
-              900: '#0C0E12',
-              850: '#11141B',
+              950: '#060709',
+              900: '#0B0D12',
+              850: '#11141C',
               800: '#181C26',
-              700: '#232938',
-              600: '#343C50'
+              700: '#232A3B',
+              600: '#333D54'
             },
             terracotta: {
-              50: '#FDF6F3',
-              100: '#FBECE7',
-              200: '#F5CEBF',
-              400: '#E26D46',
-              500: '#CC5A36',
-              600: '#B24424',
-              700: '#8A3219'
+              400: '#E67E52',
+              500: '#D96536',
+              600: '#B84E23',
             },
-            tactical: {
-              amber: '#FFB020',
-              cyan: '#38BDF8',
-              emerald: '#10B981',
-              rose: '#F04438',
-              purple: '#A78BFA'
+            amber: {
+              400: '#FBBF24',
+              500: '#F59E0B',
+            },
+            cyan: {
+              400: '#38BDF8',
+              500: '#0EA5E9',
+            },
+            emerald: {
+              400: '#34D399',
+              500: '#10B981',
             }
           },
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
             serif: ['"Newsreader"', 'Georgia', 'serif'],
             mono: ['"JetBrains Mono"', 'monospace']
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'radar-sweep': 'radarSweep 4s linear infinite',
-          },
-          keyframes: {
-            radarSweep: {
-              '0%': { transform: 'rotate(0deg)' },
-              '100%': { transform: 'rotate(360deg)' }
-            }
           }
         }
       }
@@ -73,1090 +64,368 @@
   </script>
 
   <style>
-    /* Estilos personalizados y utilidades de cristal */
-    .glass-card {
-      background: rgba(18, 22, 32, 0.72);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
+    /* Efectos de cristal refinado (estilo visionOS / Anthropic / Apple) */
+    .glass-pill {
+      background: rgba(17, 20, 28, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .glass-card-hover {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    .glass-surface {
+      background: rgba(14, 17, 24, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
-    .glass-card-hover:hover {
-      background: rgba(24, 29, 43, 0.85);
-      border-color: rgba(226, 109, 70, 0.35);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px -10px rgba(204, 90, 54, 0.15);
-    }
-    .glow-terracotta {
-      box-shadow: 0 0 50px -10px rgba(226, 109, 70, 0.25);
-    }
-    .glow-cyan {
-      box-shadow: 0 0 50px -10px rgba(56, 189, 248, 0.2);
-    }
-    .text-gradient {
-      background: linear-gradient(135deg, #FFFFFF 20%, #CBD5E1 60%, #94A3B8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .text-gradient-amber {
-      background: linear-gradient(135deg, #FFB020 0%, #E26D46 70%, #CC5A36 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .text-glow {
+      text-shadow: 0 0 35px rgba(230, 126, 82, 0.35);
     }
     /* Estilo del mapa Leaflet en modo oscuro */
     .leaflet-container {
-      background-color: #0c0e14 !important;
+      background-color: #08090d !important;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
     }
-    .custom-leaflet-tooltip {
-      background: #11141b !important;
-      border: 1px solid #343c50 !important;
-      color: #e2e8f0 !important;
+    .custom-tooltip {
+      background: #0f131a !important;
+      border: 1px solid rgba(255,255,255,0.12) !important;
+      color: #f1f5f9 !important;
       font-size: 11px !important;
       font-family: 'JetBrains Mono', monospace !important;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.5) !important;
-      padding: 4px 8px !important;
-      border-radius: 4px !important;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.7) !important;
+      padding: 6px 10px !important;
+      border-radius: 6px !important;
     }
-    /* Scrollbar personalizada sutil */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+    /* Slider interactivo Antes/Después */
+    .split-slider-container {
+      position: relative;
+      overflow: hidden;
+      user-select: none;
     }
-    ::-webkit-scrollbar-track {
-      background: #0c0e12;
+    .split-slider-before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #232938;
-      border-radius: 3px;
+    .split-slider-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #E67E52;
+      box-shadow: 0 0 16px #E67E52;
+      cursor: ew-resize;
+      z-index: 30;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #e26d46;
+    .split-slider-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #11141C;
+      border: 2px solid #E67E52;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.6);
     }
   </style>
 </head>
 <body class="bg-obsidian-950 text-slate-200 font-sans antialiased selection:bg-terracotta-500 selection:text-white">
 
   <!-- ============================================================== -->
-  <!-- BARRA SUPERIOR DE NAVEGACIÓN Y AVISO DE ESTADO -->
+  <!-- BARRA SUPERIOR MINIMALISTA Y FLOTANTE -->
   <!-- ============================================================== -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-obsidian-950/80 backdrop-blur-xl border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <div class="fixed top-0 left-0 right-0 z-50 px-4 sm:px-8 pt-4 pb-2 pointer-events-none">
+    <div class="max-w-6xl mx-auto flex items-center justify-between pointer-events-auto">
       
-      <!-- Logotipo e Identidad Institucional -->
-      <div class="flex items-center gap-3">
-        <div class="relative w-9 h-9 rounded-lg bg-gradient-to-br from-terracotta-500 to-obsidian-850 flex items-center justify-center border border-terracotta-400/40 shadow-sm shadow-terracotta-500/20">
-          <i data-lucide="shield-alert" class="w-5 h-5 text-white"></i>
-          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-tactical-emerald rounded-full ring-2 ring-obsidian-950 animate-pulse"></span>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-mono font-bold text-lg tracking-wider text-white">VIGÍA</span>
-            <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-terracotta-500/20 text-terracotta-400 border border-terracotta-500/30">v1.0.0</span>
-          </div>
-          <p class="text-[10px] font-medium text-slate-400 tracking-tight">OPERACIONES URBANAS · MUNI EL AGUSTINO & UNMSM</p>
-        </div>
-      </div>
+      <!-- Marca VIGÍA -->
+      <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-full glass-pill hover:border-terracotta-400/30 transition">
+        <div class="w-2 h-2 rounded-full bg-terracotta-400 animate-pulse"></div>
+        <span class="font-serif italic font-semibold text-lg text-white tracking-wide">Vigía</span>
+        <span class="text-[11px] font-mono text-slate-400 tracking-tight border-l border-white/10 pl-3 hidden sm:inline">
+          El Agustino · UNMSM
+        </span>
+      </a>
 
-      <!-- Menú de Enlaces Rápidos -->
-      <nav class="hidden lg:flex items-center gap-6 text-xs font-medium text-slate-300">
-        <a href="#diagnostico" class="hover:text-terracotta-400 transition">01. Diagnóstico</a>
-        <a href="#solucion-ia" class="hover:text-terracotta-400 transition">02. Qué Hace VIGÍA</a>
-        <a href="#paneles-metricas" class="hover:text-terracotta-400 transition">03. Paneles & Métricas</a>
-        <a href="#mapa-tactico" class="hover:text-terracotta-400 transition">04. Mapa Táctico</a>
-        <a href="#eventos-ia" class="hover:text-terracotta-400 transition">05. 9 Eventos IA</a>
-        <a href="#roadmap" class="hover:text-terracotta-400 transition">06. Estado & Roadmap</a>
-        <a href="#piloto" class="hover:text-terracotta-400 transition text-tactical-amber font-semibold">07. Piloto 10 Cámaras</a>
+      <!-- Menú Flotante Refinado -->
+      <nav class="hidden md:flex items-center gap-1 px-4 py-1.5 rounded-full glass-pill text-xs font-medium text-slate-300">
+        <a href="#desafio" class="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">El Desafío</a>
+        <a href="#comparador" class="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">La Solución IA</a>
+        <a href="#simulador" class="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Simulador Humano</a>
+        <a href="#mapa" class="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Mapa Táctico</a>
+        <a href="#terreno" class="px-3 py-1.5 rounded-full hover:text-white hover:bg-white/5 transition">Serenos de a Pie</a>
+        <a href="#concurso-upc" class="px-3 py-1.5 rounded-full text-amber-400 hover:text-amber-300 transition">Concurso UPC</a>
       </nav>
 
-      <!-- Botón de Acción y Badge Ético -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-obsidian-850 border border-slate-700/60 text-[11px] font-mono text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-tactical-emerald"></span>
-          <span>ON-PREMISE · SIN BIOMETRÍA</span>
-        </div>
-        <a href="#piloto" class="px-3.5 py-1.5 rounded-lg bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold text-xs transition shadow-lg shadow-terracotta-500/20 flex items-center gap-1.5">
-          <span>Ver Propuesta Piloto</span>
-          <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </a>
-      </div>
+      <!-- Botón de Acción -->
+      <a href="#simulador" class="px-4 py-2 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs tracking-wide transition shadow-lg shadow-terracotta-500/20 flex items-center gap-2">
+        <span>Probar Simulador</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+      </a>
+
     </div>
-  </header>
-
-  <!-- Espaciador para la barra fija -->
-  <div class="h-16"></div>
+  </div>
 
   <!-- ============================================================== -->
-  <!-- HERO SECTION CON SLIDESHOW / CAROUSEL INTERACTIVO -->
+  <!-- HERO SECTION: NARRATIVA HUMANA Y VISUAL IMPACTANTE -->
   <!-- ============================================================== -->
-  <section class="relative overflow-hidden pt-10 pb-16 lg:pt-14 lg:pb-24 border-b border-white/10">
-    <!-- Gradiente de fondo difuso -->
-    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-terracotta-500/10 blur-[130px] rounded-full pointer-events-none"></div>
-    <div class="absolute bottom-0 right-10 w-[400px] h-[250px] bg-tactical-cyan/10 blur-[110px] rounded-full pointer-events-none"></div>
+  <section class="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden border-b border-white/5">
+    
+    <!-- Imagen de fondo real de El Agustino con velo ambiental orgánico -->
+    <div class="absolute inset-0 z-0">
+      <img src="assets/calle_agustino.jpg" alt="Calles de El Agustino" class="w-full h-full object-cover object-center filter brightness-[0.22] contrast-[1.1] scale-105 transform">
+      <div class="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/80 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-obsidian-950 via-obsidian-950/70 to-transparent"></div>
+    </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- Resplandor sutil terracota -->
+    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-terracotta-500/15 blur-[140px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
       
-      <!-- Encabezado Principal Editorial -->
-      <div class="text-center max-w-3xl mx-auto mb-10">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-obsidian-850 border border-terracotta-500/30 text-terracotta-400 text-xs font-mono mb-4 tracking-wide uppercase">
-          <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
-          <span>Iniciativa de Transferencia Tecnológica Universitaria UNMSM</span>
-        </div>
-        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif tracking-tight text-white leading-tight mb-4">
-          Las cámaras ven. <span class="text-gradient-amber italic">VIGÍA entiende.</span><br>
-          La Municipalidad responde en tiempo real.
+      <!-- Distintivo de Concurso UPC e Innovación -->
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-pill text-xs text-amber-300 font-mono mb-8">
+        <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+        <span>Candidatura Oficial · Concurso de Innovación & Emprendimiento UPC 2026</span>
+      </div>
+
+      <!-- Titular Principal Emotivo y Preciso -->
+      <div class="max-w-4xl space-y-6 mb-12">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-serif font-light text-white leading-[1.08] tracking-tight text-glow">
+          Donde 233 cámaras vigilaban a ciegas, <span class="italic text-terracotta-400 font-normal">VIGÍA</span> devuelve el auxilio ciudadano en menos de 5 segundos.
         </h1>
-        <p class="text-sm sm:text-base text-slate-300 font-light leading-relaxed max-w-2xl mx-auto">
-          Plataforma de videoanalítica urbana con inteligencia artificial local (On-Premise) para la red de <strong>233 cámaras del Distrito de El Agustino</strong>. Transformando el monitoreo pasivo de grabación forense en auxilio ciudadano inmediato.
+        <p class="text-base sm:text-xl text-slate-300 font-light leading-relaxed max-w-2xl">
+          En El Agustino, seis operadores intentan vigilar 233 pantallas simultáneas. Tras 20 minutos de fatiga, el <strong>87% de los incidentes ocurre sin que nadie los vea</strong>. VIGÍA une visión artificial local y criterio humano para que ninguna alerta quede desatendida.
         </p>
       </div>
 
-      <!-- ============================================================== -->
-      <!-- SLIDESHOW INTERACTIVO MODERNO (TIPO ANTHROPIC PRESENTATION) -->
-      <!-- ============================================================== -->
-      <div class="relative max-w-5xl mx-auto">
-        <div class="glass-card rounded-2xl p-6 sm:p-8 border border-white/10 glow-terracotta">
-          
-          <!-- Barra superior del slide: Controles y etiquetas -->
-          <div class="flex items-center justify-between pb-5 mb-6 border-b border-white/10">
-            <div class="flex items-center gap-3">
-              <span class="text-[11px] font-mono font-bold tracking-widest text-terracotta-400 uppercase" id="slideBadge">DIAPOSITIVA 1 / 4 · DIAGNÓSTICO</span>
-              <span class="w-1.5 h-1.5 rounded-full bg-slate-600"></span>
-              <span class="text-xs text-slate-400 font-mono hidden sm:inline" id="slideContext">Aritmética del Servicio de Videovigilancia</span>
-            </div>
-            
-            <!-- Controles de navegación del Slide -->
-            <div class="flex items-center gap-2">
-              <button onclick="prevSlide()" class="w-8 h-8 rounded-lg bg-obsidian-800 hover:bg-obsidian-700 text-slate-300 hover:text-white flex items-center justify-center border border-white/10 transition" title="Anterior (←)">
-                <i data-lucide="chevron-left" class="w-4 h-4"></i>
-              </button>
-              <div class="flex items-center gap-1.5 px-2 font-mono text-xs text-slate-400">
-                <span id="slideIndexText" class="text-white font-bold">1</span>/<span id="slideTotalText">4</span>
-              </div>
-              <button onclick="nextSlide()" class="w-8 h-8 rounded-lg bg-obsidian-800 hover:bg-obsidian-700 text-slate-300 hover:text-white flex items-center justify-center border border-white/10 transition" title="Siguiente (→)">
-                <i data-lucide="chevron-right" class="w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
-
-          <!-- Contenedor dinámico de Diapositivas -->
-          <div class="min-h-[340px] flex items-center" id="slideContainer">
-            
-            <!-- SLIDE 1: El Cuello de Botella Ergonómico -->
-            <div class="slide-content w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center" data-index="0">
-              <div class="lg:col-span-7 space-y-4">
-                <div class="inline-flex items-center gap-1.5 text-tactical-rose text-xs font-mono font-semibold">
-                  <i data-lucide="alert-triangle" class="w-4 h-4"></i>
-                  <span>EL RETO ESTRUCTURAL EN EL AGUSTINO</span>
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-serif text-white font-medium">
-                  El 87% de los incidentes en vía pública no son vistos en tiempo real.
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  El Agustino cuenta con <strong>233 cámaras</strong>, pero solo <strong>6 operadores por turno</strong>. Por ergonomía visual, un operador solo puede vigilar 9 monitores simultáneamente (54 cámaras en total = 23.1% de la red).
-                </p>
-                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  A los 20 minutos de monotonía visual, la atención sostenida humana decae a un factor de <strong>0.55</strong>. El rendimiento real efectivo es de solo <strong>12.7% ≈ 13%</strong>. Las cámaras terminan funcionando únicamente como un registro forense para revisar hechos consumados.
-                </p>
-                <div class="flex flex-wrap gap-2 pt-2">
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-slate-300">233 Flujos Continuos</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-rose">20 Minutos de Fatiga</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-amber">13% Atención Efectiva</span>
-                </div>
-              </div>
-              <div class="lg:col-span-5 bg-obsidian-900/90 rounded-xl p-5 border border-white/10 space-y-3">
-                <div class="flex justify-between items-center text-xs font-mono text-slate-400 border-b border-white/5 pb-2">
-                  <span>MÉTRICA ERGONÓMICA</span>
-                  <span>ESTADO ACTUAL</span>
-                </div>
-                <div class="space-y-2">
-                  <div>
-                    <div class="flex justify-between text-xs mb-1">
-                      <span class="text-slate-300">Cobertura visual activa</span>
-                      <span class="font-mono text-tactical-rose font-bold">13%</span>
-                    </div>
-                    <div class="w-full h-2 bg-obsidian-800 rounded-full overflow-hidden">
-                      <div class="h-full bg-tactical-rose rounded-full" style="width: 13%"></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="flex justify-between text-xs mb-1">
-                      <span class="text-slate-300">Red en modo forense (a ciegas)</span>
-                      <span class="font-mono text-slate-400 font-bold">87%</span>
-                    </div>
-                    <div class="w-full h-2 bg-obsidian-800 rounded-full overflow-hidden">
-                      <div class="h-full bg-slate-600 rounded-full" style="width: 87%"></div>
-                    </div>
-                  </div>
-                  <div class="pt-2 text-[11px] text-slate-400 italic bg-obsidian-850 p-2.5 rounded border border-white/5">
-                    "No es falta de disciplina del sereno, es una restricción neurocognitiva biológica universal demostrada por la ingeniería de métodos."
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SLIDE 2: La Solución VIGÍA -->
-            <div class="slide-content w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center hidden" data-index="1">
-              <div class="lg:col-span-7 space-y-4">
-                <div class="inline-flex items-center gap-1.5 text-tactical-cyan text-xs font-mono font-semibold">
-                  <i data-lucide="layers" class="w-4 h-4"></i>
-                  <span>ARQUITECTURA DE INTELIGENCIA ARTIFICIAL</span>
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-serif text-white font-medium">
-                  Inferencia neuronal local 24/7 con validación humana obligatoria.
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  VIGÍA analiza los <strong>233 flujos de video simultáneamente</strong> mediante redes neuronales de última generación (<strong>RF-DETR Medium + ByteTrack</strong>) ejecutadas On-Premise dentro del propio servidor municipal.
-                </p>
-                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  En menos de <strong>5 segundos</strong> de ocurrido un hecho (pelea, robo, caída, basura o desmonte), el sistema proyecta en pantalla la hipótesis con clip de 5s y unidad más cercana. <em>Ninguna unidad sale sin confirmación humana</em>: el operador valida o descarta.
-                </p>
-                <div class="flex flex-wrap gap-2 pt-2">
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-cyan">&lt; 5s Detección</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-white">RF-DETR Medium</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-emerald">100% Soberanía Local</span>
-                </div>
-              </div>
-              <div class="lg:col-span-5 bg-obsidian-900/90 rounded-xl p-5 border border-white/10 space-y-3">
-                <div class="text-xs font-mono text-terracotta-400 font-bold uppercase tracking-wider mb-2">
-                  CICLO ESTRICTO DEL INCIDENTE
-                </div>
-                <div class="space-y-2 text-xs font-mono">
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex items-center justify-between">
-                    <span class="text-slate-300">1. Alerta Autónoma (IA)</span>
-                    <span class="text-tactical-amber font-bold">&lt; 5 segundos</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-terracotta-500/30 flex items-center justify-between">
-                    <span class="text-slate-200">2. Validación Operador</span>
-                    <span class="text-terracotta-400 font-bold">Humano-en-el-Bucle</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex items-center justify-between">
-                    <span class="text-slate-300">3. Despacho Ruteo A*</span>
-                    <span class="text-tactical-cyan font-bold">Tiempo Real Callejero</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-tactical-emerald/30 flex items-center justify-between">
-                    <span class="text-slate-200">4. Llegada al Punto</span>
-                    <span class="text-tactical-emerald font-bold">&lt; 3 - 4 minutos</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SLIDE 3: Despacho Táctico y Serenos de a Pie -->
-            <div class="slide-content w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center hidden" data-index="2">
-              <div class="lg:col-span-7 space-y-4">
-                <div class="inline-flex items-center gap-1.5 text-tactical-amber text-xs font-mono font-semibold">
-                  <i data-lucide="radio" class="w-4 h-4"></i>
-                  <span>COORDINACIÓN INTEGRAL CENTRAL - TERRENO</span>
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-serif text-white font-medium">
-                  Canal directo para operadores de a pie y patrullas con ruteo A*.
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  VIGÍA no se queda en las pantallas: enlaza la Central con los <strong>serenos en campo</strong> mediante una app web progresiva (PWA) instalada en sus teléfonos.
-                </p>
-                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  Los operadores de pie reportan con foto/video, comparten su ubicación GPS y reciben despachos calculados por el <strong>grafo vial real de El Agustino con algoritmo A*</strong>, optimizando la ruta según sentido de calles y tiempos reales de desplazamiento.
-                </p>
-                <div class="flex flex-wrap gap-2 pt-2">
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-amber">VIGÍA Campo (PWA)</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-emerald">Cola Offline sin Señal</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-white">Ruteo Vial A*</span>
-                </div>
-              </div>
-              <div class="lg:col-span-5 bg-obsidian-900/90 rounded-xl p-5 border border-white/10 space-y-3">
-                <div class="text-xs font-mono text-slate-400 font-bold uppercase tracking-wider mb-2">
-                  ESTADOS DEL SERENO EN TERRENO
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
-                  <div class="p-2 rounded bg-tactical-emerald/10 border border-tactical-emerald/30 text-tactical-emerald flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-tactical-emerald"></span>
-                    <span>DISPONIBLE</span>
-                  </div>
-                  <div class="p-2 rounded bg-tactical-cyan/10 border border-tactical-cyan/30 text-tactical-cyan flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-tactical-cyan"></span>
-                    <span>PATRULLANDO</span>
-                  </div>
-                  <div class="p-2 rounded bg-tactical-amber/10 border border-tactical-amber/30 text-tactical-amber flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-tactical-amber"></span>
-                    <span>EN RUTA</span>
-                  </div>
-                  <div class="p-2 rounded bg-tactical-rose/10 border border-tactical-rose/30 text-tactical-rose flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-tactical-rose"></span>
-                    <span>EN EL PUNTO</span>
-                  </div>
-                </div>
-                <p class="text-[11px] text-slate-400 pt-1">
-                  Funciona sin internet en zonas altas: encola los reportes en el dispositivo y sincroniza automáticamente al recuperar enlace.
-                </p>
-              </div>
-            </div>
-
-            <!-- SLIDE 4: El Piloto Controlado -->
-            <div class="slide-content w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center hidden" data-index="3">
-              <div class="lg:col-span-7 space-y-4">
-                <div class="inline-flex items-center gap-1.5 text-tactical-emerald text-xs font-mono font-semibold">
-                  <i data-lucide="check-circle" class="w-4 h-4"></i>
-                  <span>PROYECTO PILOTO CONTROLADO · MESA DE PARTES</span>
-                </div>
-                <h3 class="text-2xl sm:text-3xl font-serif text-white font-medium">
-                  Validación en 10 cámaras críticas bajo Contratación Menor (8 UIT).
-                </h3>
-                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  Para que la Municipalidad constate la eficacia sin riesgos presupuestales, se propone un <strong>Piloto Controlado de 30 a 60 días</strong> en diez (10) puntos críticos del distrito (Riva Agüero, Cerro San Pedro, Puente Nuevo, Mariátegui, Áncash).
-                </p>
-                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
-                  Enmarcado en el <strong>Artículo 34° de la Ley N° 32069</strong> (monto cerrado de S/ 44,000.00 PEN), con acompañamiento de la UNMSM y reutilización del hardware y cámaras existentes.
-                </p>
-                <div class="flex flex-wrap gap-2 pt-2">
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-emerald">Ley N° 32069 (Art. 34)</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-tactical-amber">S/ 44,000 (8 UIT)</span>
-                  <span class="px-2.5 py-1 rounded bg-obsidian-900 border border-slate-700 text-[11px] font-mono text-slate-300">10 Puntos Pareto</span>
-                </div>
-              </div>
-              <div class="lg:col-span-5 bg-obsidian-900/90 rounded-xl p-5 border border-white/10 space-y-3">
-                <div class="text-xs font-mono text-slate-400 font-bold uppercase tracking-wider mb-2">
-                  METAS TÉCNICAS EXIGIBLES (KPIS)
-                </div>
-                <div class="space-y-2 text-xs font-mono">
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex justify-between">
-                    <span class="text-slate-400">Disponibilidad (Uptime):</span>
-                    <span class="text-white font-bold">&ge; 95% mensual</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex justify-between">
-                    <span class="text-slate-400">Latencia de alerta:</span>
-                    <span class="text-tactical-cyan font-bold">&le; 5 segundos</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex justify-between">
-                    <span class="text-slate-400">Supervisión Heartbeat:</span>
-                    <span class="text-tactical-amber font-bold">100% de la red (233)</span>
-                  </div>
-                  <div class="p-2 rounded bg-obsidian-850 border border-white/5 flex justify-between">
-                    <span class="text-slate-400">Capacitación operadores:</span>
-                    <span class="text-tactical-emerald font-bold">2 talleres prácticos</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Indicadores de diapositiva (Dots) y Barra de Progreso -->
-          <div class="pt-6 mt-6 border-t border-white/10 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <button onclick="goToSlide(0)" class="slide-dot w-8 h-1.5 rounded-full bg-terracotta-500 transition-all"></button>
-              <button onclick="goToSlide(1)" class="slide-dot w-3 h-1.5 rounded-full bg-obsidian-700 hover:bg-slate-500 transition-all"></button>
-              <button onclick="goToSlide(2)" class="slide-dot w-3 h-1.5 rounded-full bg-obsidian-700 hover:bg-slate-500 transition-all"></button>
-              <button onclick="goToSlide(3)" class="slide-dot w-3 h-1.5 rounded-full bg-obsidian-700 hover:bg-slate-500 transition-all"></button>
-            </div>
-            <div class="text-[11px] font-mono text-slate-500 flex items-center gap-3">
-              <span class="hidden sm:inline">Usa las teclas &larr; y &rarr; para navegar</span>
-              <button id="toggleAutoplayBtn" onclick="toggleAutoplay()" class="text-slate-400 hover:text-white flex items-center gap-1 transition">
-                <i data-lucide="play" class="w-3 h-3"></i>
-                <span id="autoplayStatusText">Auto</span>
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================== -->
-  <!-- SECCIÓN 01: EL DIAGNÓSTICO Y LA ARITMÉTICA DEL MONITOREO -->
-  <!-- ============================================================== -->
-  <section id="diagnostico" class="py-20 bg-obsidian-900/50 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <!-- Barra Rápida de Métricas Clave (Sin cajas pesadas, pura tipografía) -->
+      <div class="pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl font-mono">
         <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-terracotta-400">01 · REFORMULACIÓN DEL PROBLEMA</span>
-          <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1">
-            La Aritmética de Vigilancia en El Agustino
+          <div class="text-3xl sm:text-4xl font-light text-white mb-1">233</div>
+          <div class="text-xs text-slate-400">Cámaras analizadas 24/7</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-light text-terracotta-400 mb-1">&lt; 5s</div>
+          <div class="text-xs text-slate-400">Detección de incidentes</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-light text-emerald-400 mb-1">100%</div>
+          <div class="text-xs text-slate-400">Validación humana en sala</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-light text-cyan-400 mb-1">0</div>
+          <div class="text-xs text-slate-400">Datos biométricos (Ley 29733)</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================== -->
+  <!-- SECCIÓN 01: EL DESAFÍO REAL (LA HISTORIA Y LA CIENCIA) -->
+  <!-- ============================================================== -->
+  <section id="desafio" class="py-24 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        
+        <!-- Narrativa Humana -->
+        <div class="lg:col-span-7 space-y-6">
+          <span class="font-mono text-xs text-terracotta-400 uppercase tracking-widest">01 · La Realidad en El Agustino</span>
+          <h2 class="text-3xl sm:text-5xl font-serif text-white leading-tight font-light">
+            No es falta de voluntad del sereno.<br>
+            <span class="italic text-slate-400">Es una limitación biológica universal.</span>
           </h2>
-        </div>
-        <p class="text-xs sm:text-sm text-slate-400 max-w-md mt-4 md:mt-0">
-          Evaluación de capacidad industrial y factor neurocognitivo frente a la demanda de 233 flujos de video simultáneos.
-        </p>
-      </div>
-
-      <!-- Cuadrícula comparativa: Modelo Tradicional vs Modelo VIGÍA -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        
-        <!-- Tarjeta: Modelo Tradicional Pasivo -->
-        <div class="glass-card rounded-2xl p-6 sm:p-8 border border-tactical-rose/20 relative overflow-hidden">
-          <div class="absolute top-0 right-0 px-4 py-1.5 bg-tactical-rose/20 text-tactical-rose text-[11px] font-mono font-bold rounded-bl-xl border-l border-b border-tactical-rose/30">
-            ESQUEMA ACTUAL (TRADICIONAL)
-          </div>
-
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-tactical-rose/10 flex items-center justify-center border border-tactical-rose/30 text-tactical-rose">
-              <i data-lucide="eye-off" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-white">Monitoreo Humano Directo</h3>
-              <p class="text-xs text-slate-400 font-mono">Restricción Biológica de Capacidad</p>
-            </div>
-          </div>
-
-          <div class="space-y-4 text-xs text-slate-300 font-mono border-b border-white/10 pb-6 mb-6">
-            <div class="flex justify-between">
-              <span class="text-slate-400">Cámaras en la red:</span>
-              <span class="font-bold text-white">233 cámaras</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Operadores por turno:</span>
-              <span class="font-bold text-white">6 operadores</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Cámaras observadas a la vez (máx):</span>
-              <span class="font-bold text-white">54 cámaras (9 c/u)</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Utilización instantánea de red:</span>
-              <span class="font-bold text-tactical-amber">23.1%</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Factor de atención sostenida (&gt;20 min):</span>
-              <span class="font-bold text-tactical-rose">0.55</span>
-            </div>
-            <div class="p-3 rounded-lg bg-tactical-rose/10 border border-tactical-rose/30 flex justify-between items-center text-sm font-bold text-tactical-rose">
-              <span>RENDIMIENTO EFECTIVO REAL:</span>
-              <span>12.7% ≈ 13%</span>
-            </div>
-          </div>
-
-          <div class="text-xs text-slate-400 space-y-2">
-            <div class="flex items-start gap-2">
-              <i data-lucide="x" class="w-4 h-4 text-tactical-rose shrink-0 mt-0.5"></i>
-              <span><strong>87% de la red desatendida</strong> en cualquier minuto del turno.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i data-lucide="x" class="w-4 h-4 text-tactical-rose shrink-0 mt-0.5"></i>
-              <span>Grabación reactiva: se revisa el video cuando el delito ya ocurrió y se consumó.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i data-lucide="x" class="w-4 h-4 text-tactical-rose shrink-0 mt-0.5"></i>
-              <span>Sobrecarga cognitiva de los operadores y fatiga visual severa.</span>
-            </div>
+          
+          <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+            <p>
+              Imagina entrar al Centro de Operaciones de El Agustino. La sala está en penumbra. Frente a ti, una pared con <strong>233 cámaras activas</strong> transmitiendo la vida de 200 mil vecinos: paraderos de Puente Nuevo, esquinas de Riva Agüero, callejones del Cerro San Pedro.
+            </p>
+            <p>
+              Solo hay <strong>6 operadores por turno</strong>. Cada uno tiene a su cargo hasta 38 pantallas. La ciencia de la ergonomía visual es tajante: después de 20 minutos de monotonía observando calles donde aparentemente nada pasa, la capacidad de atención sostenida cae drásticamente a la mitad (factor 0.55).
+            </p>
+            <p class="text-slate-400 italic">
+              El resultado matemático es demoledor: solo el <strong>13% de la red es atendida activamente</strong>. El 87% restante queda en silencio. Las cámaras terminan sirviendo únicamente como una costosa grabadora forense para ver cómo huyeron los delincuentes, horas después.
+            </p>
           </div>
         </div>
 
-        <!-- Tarjeta: Modelo VIGÍA IA -->
-        <div class="glass-card rounded-2xl p-6 sm:p-8 border border-terracotta-500/40 relative overflow-hidden glow-terracotta">
-          <div class="absolute top-0 right-0 px-4 py-1.5 bg-terracotta-500 text-white text-[11px] font-mono font-bold rounded-bl-xl shadow">
-            MODELO VIGÍA (PROACTIVO)
+        <!-- Evidencia Fotográfica y Científica Real -->
+        <div class="lg:col-span-5 space-y-4">
+          <div class="rounded-2xl overflow-hidden glass-surface p-2 border border-white/10 shadow-2xl">
+            <img src="assets/atencion_cctv.png" alt="Curva de Fatiga y Atención en CCTV" class="w-full h-auto rounded-xl object-contain bg-obsidian-900">
           </div>
-
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 rounded-lg bg-terracotta-500/20 flex items-center justify-center border border-terracotta-500/40 text-terracotta-400">
-              <i data-lucide="sparkles" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-white">Videoanalítica con IA On-Premise</h3>
-              <p class="text-xs text-terracotta-400 font-mono">100% Cobertura Simultánea 24/7</p>
-            </div>
-          </div>
-
-          <div class="space-y-4 text-xs text-slate-300 font-mono border-b border-white/10 pb-6 mb-6">
-            <div class="flex justify-between">
-              <span class="text-slate-400">Cámaras analizadas continuamente:</span>
-              <span class="font-bold text-white">233 cámaras (100%)</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Detección de evento crítico:</span>
-              <span class="font-bold text-tactical-cyan">&lt; 5 segundos</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Proyección en sala:</span>
-              <span class="font-bold text-white">Clip 5s + Señal + Unidad</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Decisión operativa:</span>
-              <span class="font-bold text-terracotta-400">Validación Humana Obligatoria</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-slate-400">Despacho de unidad:</span>
-              <span class="font-bold text-tactical-emerald">&lt; 1 minuto</span>
-            </div>
-            <div class="p-3 rounded-lg bg-terracotta-500/20 border border-terracotta-500/40 flex justify-between items-center text-sm font-bold text-terracotta-400">
-              <span>UTILIZACIÓN DE LA RED:</span>
-              <span>100% PERMANENTE</span>
-            </div>
-          </div>
-
-          <div class="text-xs text-slate-300 space-y-2">
-            <div class="flex items-start gap-2">
-              <i data-lucide="check" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span>El operador pasa de observador pasivo a <strong>decisor estratégico</strong>.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i data-lucide="check" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span>Intervención en flagrancia y disuasión inmediata antes de la fuga.</span>
-            </div>
-            <div class="flex items-start gap-2">
-              <i data-lucide="check" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span>Cero licencias comerciales en dólares: software soberano e infraestructura local.</span>
-            </div>
+          <div class="px-2 text-xs font-mono text-slate-400 flex items-center justify-between">
+            <span>Curva de habituación visual en videovigilancia</span>
+            <span class="text-terracotta-400 font-bold">Rendimiento: 12.7%</span>
           </div>
         </div>
 
-      </div>
-
-      <!-- Tabla Comparativa de Alternativas Evaluadas (Ingeniería de Métodos) -->
-      <div class="glass-card rounded-2xl p-6 overflow-x-auto border border-white/10">
-        <h4 class="text-sm font-mono font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-          <i data-lucide="table" class="w-4 h-4 text-terracotta-400"></i>
-          <span>Matriz de Alternativas Evaluadas para la Municipalidad</span>
-        </h4>
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="border-b border-white/10 text-slate-400">
-              <th class="pb-3 font-semibold">ALTERNATIVA</th>
-              <th class="pb-3 font-semibold">MECANISMO INDUSTRIAL</th>
-              <th class="pb-3 font-semibold">COSTO ANUAL ESTIMADO</th>
-              <th class="pb-3 font-semibold">EFECTIVIDAD REAL</th>
-              <th class="pb-3 font-semibold">DICTAMEN TÉCNICO</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/5">
-            <tr>
-              <td class="py-3 font-bold text-slate-300">A. Aumentar Dotación de Personal</td>
-              <td class="py-3 text-slate-400">Contratar 78 operadores para cubrir las 233 cámaras en 3 turnos.</td>
-              <td class="py-3 text-tactical-rose">S/ 1,970,000 / año en planilla</td>
-              <td class="py-3 text-slate-400">55% (la fatiga biológica persiste)</td>
-              <td class="py-3 text-tactical-rose font-semibold">Inviable presupuestalmente</td>
-            </tr>
-            <tr>
-              <td class="py-3 font-bold text-slate-300">B. Muestreo Estratificado (Pareto)</td>
-              <td class="py-3 text-slate-400">Rotar cámaras cada 30 minutos y priorizar zonas críticas.</td>
-              <td class="py-3 text-tactical-amber">S/ 8,000 (reorganización de turnos)</td>
-              <td class="py-3 text-slate-400">41% en zonas críticas</td>
-              <td class="py-3 text-tactical-amber font-semibold">Deja al 77% del distrito a ciegas</td>
-            </tr>
-            <tr class="bg-terracotta-500/10">
-              <td class="py-3 font-bold text-terracotta-400">C. Automatizar con IA (VIGÍA)</td>
-              <td class="py-3 text-slate-200">Redes neuronales analizan 233 cámaras 24/7; operador valida y despacha.</td>
-              <td class="py-3 text-tactical-emerald font-bold">S/ 44,000 en Piloto (8 UIT)</td>
-              <td class="py-3 text-tactical-emerald font-bold">100% de utilización simultánea</td>
-              <td class="py-3 text-tactical-emerald font-bold">DECISIÓN ÓPTIMA ADOPTADA</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
 
     </div>
   </section>
 
   <!-- ============================================================== -->
-  <!-- SECCIÓN 02: CÓMO FUNCIONA VIGÍA Y QUÉ HACE -->
+  <!-- SECCIÓN 02: COMPARADOR INTERACTIVO ANTES VS DESPUÉS (SLIDER) -->
   <!-- ============================================================== -->
-  <section id="solucion-ia" class="py-20 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="comparador" class="py-24 bg-obsidian-900/60 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-xs font-mono uppercase tracking-widest text-tactical-cyan">02 · CAPACIDAD Y ARQUITECTURA TÉCNICA</span>
-        <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1 mb-4">
-          Inteligencia Artificial de Doble Etapa: Precisión sin Falsos Positivos
+      <div class="text-center max-w-3xl mx-auto mb-14 space-y-3">
+        <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest">02 · Transformación Tecnológica</span>
+        <h2 class="text-3xl sm:text-5xl font-serif text-white font-light">
+          Arrastra el cursor y comprueba la diferencia.
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          VIGÍA combina un detector de objetos de alta fidelidad con un clasificador neuronal entrenable que aprende de las decisiones de los propios serenos de El Agustino.
+        <p class="text-sm sm:text-base text-slate-400 font-light">
+          A la izquierda: lo que un operador agotado ve en la pantalla pasiva. A la derecha: cómo VIGÍA procesa, segmenta y detecta en menos de 78 milisegundos con RF-DETR Medium.
         </p>
       </div>
 
-      <!-- Diagrama de Flujo Arquitectónico en 3 Etapas -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <!-- Componente Interactivo Before / After Split Slider con Fotos Reales -->
+      <div class="relative max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-2xl border border-white/10 split-slider-container aspect-[16/9]" id="splitSlider">
         
-        <!-- Etapa 1 -->
-        <div class="glass-card rounded-2xl p-6 border border-white/10 glass-card-hover">
-          <div class="w-10 h-10 rounded-xl bg-obsidian-850 flex items-center justify-center border border-tactical-cyan/40 text-tactical-cyan mb-4 font-mono font-bold">
-            01
-          </div>
-          <h3 class="text-base font-bold text-white mb-2">Detección y Rastreo Continuo</h3>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            El motor <strong>RF-DETR Medium</strong> sobre <strong>ONNX Runtime Web / TensorRT</strong> procesa cada fotograma extrayendo bounding boxes de personas, vehículos, motos y bultos. <strong>ByteTrack</strong> mantiene el seguimiento espacio-temporal sin perder continuidad.
-          </p>
-          <div class="bg-obsidian-900 p-3 rounded-lg border border-white/5 font-mono text-[11px] text-slate-400">
-            <div class="text-slate-300 font-semibold mb-1">Latencia medida:</div>
-            <div class="text-tactical-cyan">78 ms / fotograma (WebGPU)</div>
-            <div class="text-slate-500">Repliegue a Small / COCO-SSD</div>
+        <!-- Capa Derecha (DESPUÉS: Inferencia Real de VIGÍA con Bounding Boxes) -->
+        <img src="assets/deteccion_ia.png" alt="Inferencia VIGIA en El Agustino" class="absolute inset-0 w-full h-full object-cover select-none">
+        
+        <div class="absolute bottom-4 right-4 z-20 px-3 py-1.5 rounded-full bg-obsidian-900/90 border border-emerald-500/40 text-emerald-400 text-xs font-mono flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>CON VIGÍA (100% INFERENCIA 24/7)</span>
+        </div>
+
+        <!-- Capa Izquierda (ANTES: Calle Original sin Detección) -->
+        <div class="split-slider-before" id="splitSliderBefore" style="width: 50%;">
+          <img src="assets/muestra_calle_1.jpg" alt="Monitoreo Ciego Tradicional" class="absolute inset-0 w-full h-full object-cover filter grayscale contrast-125 select-none" style="width: 100%; max-width: none;">
+          
+          <div class="absolute bottom-4 left-4 z-20 px-3 py-1.5 rounded-full bg-obsidian-900/90 border border-rose-500/40 text-rose-400 text-xs font-mono flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+            <span>MONITOREO CIEGO (13% EFECTIVO)</span>
           </div>
         </div>
 
-        <!-- Etapa 2 -->
-        <div class="glass-card rounded-2xl p-6 border border-white/10 glass-card-hover">
-          <div class="w-10 h-10 rounded-xl bg-obsidian-850 flex items-center justify-center border border-tactical-amber/40 text-tactical-amber mb-4 font-mono font-bold">
-            02
-          </div>
-          <h3 class="text-base font-bold text-white mb-2">Ventana Temporal & 57 Rasgos</h3>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Un clasificador adaptativo analiza una ventana retrospectiva de <strong>2.5 a 16 segundos</strong> extrayendo 57 rasgos cinemáticos y geométricos: velocidad, derivas de pares en pelea, tiempos inmóviles y densidad.
-          </p>
-          <div class="bg-obsidian-900 p-3 rounded-lg border border-white/5 font-mono text-[11px] text-slate-400">
-            <div class="text-slate-300 font-semibold mb-1">Privacidad Absoluta:</div>
-            <div class="text-tactical-emerald">0 rasgos biométricos</div>
-            <div class="text-slate-500">Sin rostros ni placas (Ley 29733)</div>
-          </div>
-        </div>
-
-        <!-- Etapa 3 -->
-        <div class="glass-card rounded-2xl p-6 border border-white/10 glass-card-hover">
-          <div class="w-10 h-10 rounded-xl bg-obsidian-850 flex items-center justify-center border border-terracotta-500/40 text-terracotta-400 mb-4 font-mono font-bold">
-            03
-          </div>
-          <h3 class="text-base font-bold text-white mb-2">Aprendizaje de Falsos Positivos</h3>
-          <p class="text-xs text-slate-400 leading-relaxed mb-4">
-            Cada vez que un operador pulsa <strong>DESCARTAR</strong> en la consola, el modelo aprende que esa escena particular (ej. descarga comercial o juego deportivo) es <em>NORMAL</em>, suprimiendo alertas redundantes en esa cámara.
-          </p>
-          <div class="bg-obsidian-900 p-3 rounded-lg border border-white/5 font-mono text-[11px] text-slate-400">
-            <div class="text-slate-300 font-semibold mb-1">Entrenamiento Local:</div>
-            <div class="text-terracotta-400">Reajuste en ~1.2 segundos</div>
-            <div class="text-slate-500">En el equipo, sin nube ni costos</div>
+        <!-- Manija divisoria deslizable -->
+        <div class="split-slider-handle" id="splitSliderHandle" style="left: 50%;">
+          <div class="split-slider-button">
+            <i data-lucide="move-horizontal" class="w-4 h-4"></i>
           </div>
         </div>
 
       </div>
 
-      <!-- Cuadro de Principios Éticos y Límites Formales -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-white/10">
-        <div class="flex items-center gap-3 mb-6">
-          <div class="w-8 h-8 rounded-lg bg-tactical-emerald/20 flex items-center justify-center text-tactical-emerald border border-tactical-emerald/30">
-            <i data-lucide="lock" class="w-4 h-4"></i>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-white">Principios de Privacidad y Límites de VIGÍA</h3>
-            <p class="text-xs text-slate-400">Cumplimiento estricto de la Ley N° 29733 (Protección de Datos Personales del Perú)</p>
-          </div>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-slate-300">
-          <div class="space-y-1.5 p-4 rounded-xl bg-obsidian-900/60 border border-white/5">
-            <span class="font-mono text-terracotta-400 font-bold">SIN RECONOCIMIENTO FACIAL</span>
-            <p class="text-slate-400 leading-relaxed">VIGÍA no identifica personas ni extrae rasgos biométricos. Reconoce categorías de objetos (persona, vehículo, moto) y dinámicas de movimiento.</p>
-          </div>
-          <div class="space-y-1.5 p-4 rounded-xl bg-obsidian-900/60 border border-white/5">
-            <span class="font-mono text-tactical-cyan font-bold">LENGUAJE NO ACUSATORIO</span>
-            <p class="text-slate-400 leading-relaxed">El sistema nunca afirma una infracción. Emite hipótesis fundamentadas como «Posible riña» o «Posible desmonte», requiriendo validación humana.</p>
-          </div>
-          <div class="space-y-1.5 p-4 rounded-xl bg-obsidian-900/60 border border-white/5">
-            <span class="font-mono text-tactical-emerald font-bold">SOBERANÍA DEL VIDEO</span>
-            <p class="text-slate-400 leading-relaxed">El video no se transmite a servidores externos ni a nubes de terceros. Se procesa en memoria en el servidor municipal propio.</p>
-          </div>
-        </div>
-      </div>
+      <p class="text-center text-xs font-mono text-slate-500 mt-4">
+        Haz clic y arrastra lateralmente para contrastar la detección en tiempo real.
+      </p>
 
     </div>
   </section>
 
   <!-- ============================================================== -->
-  <!-- SECCIÓN 03: PANELES DE MÉTRICAS INTERACTIVOS -->
-  <!-- Operadores de Cámaras vs Operadores de a Pie (Serenazgo en Terreno) -->
+  <!-- SECCIÓN 03: SIMULADOR VIVO DEL OPERADOR (HUMAN-IN-THE-LOOP) -->
   <!-- ============================================================== -->
-  <section id="paneles-metricas" class="py-20 bg-obsidian-900/40 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="simulador" class="py-24 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <span class="text-xs font-mono uppercase tracking-widest text-terracotta-400">03 · INTERFACES Y PANELES OPERATIVOS</span>
-        <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1 mb-3">
-          Paneles de Métricas y Operación Táctica
+      <div class="max-w-3xl mb-12 space-y-3">
+        <span class="font-mono text-xs text-terracotta-400 uppercase tracking-widest">03 · Simulador Interactivo en Vivo</span>
+        <h2 class="text-3xl sm:text-5xl font-serif text-white font-light">
+          Ponte en los zapatos del operador de Central.
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Diseñado para los dos frentes de seguridad de la Municipalidad: la <strong>Central de Monitoreo (CCTV)</strong> y los <strong>Operadores de a Pie (Serenazgo en Terreno)</strong>.
+        <p class="text-sm sm:text-base text-slate-400 font-light">
+          En VIGÍA la inteligencia artificial <em>nunca decide sola</em>. Propone una hipótesis fundamentada y el operador valida o descarta. Prueba aquí el flujo real:
         </p>
-
-        <!-- Selector de Pestañas / Tabs para alternar entre paneles -->
-        <div class="inline-flex p-1.5 rounded-xl bg-obsidian-900 border border-white/10 mt-6 shadow-inner">
-          <button id="tabCamarasBtn" onclick="switchPanelTab('camaras')" class="px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 bg-terracotta-500 text-white shadow">
-            <i data-lucide="video" class="w-4 h-4"></i>
-            <span>PANEL: OPERADORES DE CÁMARAS</span>
-          </button>
-          <button id="tabCampoBtn" onclick="switchPanelTab('campo')" class="px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 text-slate-400 hover:text-white">
-            <i data-lucide="footprints" class="w-4 h-4"></i>
-            <span>PANEL: OPERADORES DE A PIE (SERENAZGO)</span>
-          </button>
-        </div>
       </div>
 
-      <!-- ============================================================== -->
-      <!-- CONTENEDOR 1: PANEL OPERADORES DE CÁMARAS (CCTV / SALA) -->
-      <!-- ============================================================== -->
-      <div id="panelCamaras" class="space-y-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Tarjetas de Métricas Principales de Sala -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Columna Izquierda: Visor de la Escena Urbana Real -->
+        <div class="lg:col-span-7 space-y-4">
           
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>LATENCIA INFERENCIA</span>
-              <i data-lucide="zap" class="w-4 h-4 text-tactical-cyan"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">78 ms</div>
-            <div class="text-[11px] text-tactical-emerald flex items-center gap-1 font-mono">
-              <i data-lucide="check" class="w-3 h-3"></i>
-              <span>WebGPU Acelerado (RTX 4060)</span>
-            </div>
+          <!-- Selector de Escenas Reales de Prueba -->
+          <div class="flex items-center gap-2 overflow-x-auto pb-2 text-xs font-mono">
+            <span class="text-slate-500 mr-2">CASOS REALES:</span>
+            <button onclick="cargarCasoSimulador(1)" id="btnCaso1" class="px-3 py-1.5 rounded-full bg-terracotta-500 text-white font-semibold transition">
+              Caso 1: Gresca Callejera
+            </button>
+            <button onclick="cargarCasoSimulador(2)" id="btnCaso2" class="px-3 py-1.5 rounded-full bg-white/5 text-slate-400 hover:text-white transition">
+              Caso 2: Descarga Comercial (Falso Positivo)
+            </button>
+            <button onclick="cargarCasoSimulador(3)" id="btnCaso3" class="px-3 py-1.5 rounded-full bg-white/5 text-slate-400 hover:text-white transition">
+              Caso 3: Transeúnte Caído
+            </button>
           </div>
 
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>TIEMPO VALIDACIÓN</span>
-              <i data-lucide="user-check" class="w-4 h-4 text-tactical-amber"></i>
+          <!-- Marco de Imagen Real con Overlays Dinámicos -->
+          <div class="relative rounded-2xl overflow-hidden glass-surface border border-white/10 aspect-[16/10]">
+            <img id="simuladorImagen" src="assets/muestra_calle_1.jpg" alt="Escena de Videoanalítica en El Agustino" class="w-full h-full object-cover">
+            
+            <!-- Recuadro dinámico de detección neuronal -->
+            <div id="simuladorBox" class="absolute top-[32%] left-[28%] w-[38%] h-[50%] border-2 border-terracotta-400 rounded bg-terracotta-500/15 p-2 flex flex-col justify-between transition-all duration-300">
+              <span id="simuladorBoxTag" class="bg-terracotta-500 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded w-fit">
+                POSIBLE GRESCA 94%
+              </span>
+              <span id="simuladorBoxDetail" class="bg-obsidian-950/80 text-slate-300 font-mono text-[9px] px-2 py-0.5 rounded w-fit">
+                RF-DETR: 2 personas · Contacto violento 1.8s
+              </span>
             </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">14.2 s</div>
-            <div class="text-[11px] text-slate-400 font-mono">
-              Decisión humana obligatoria
-            </div>
-          </div>
 
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>FALSOS POSITIVOS FILTRADOS</span>
-              <i data-lucide="filter" class="w-4 h-4 text-terracotta-400"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">88.4%</div>
-            <div class="text-[11px] text-tactical-emerald font-mono">
-              Clasificador de 2ª etapa
-            </div>
-          </div>
-
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>SALUD DE RED (HEARTBEAT)</span>
-              <i data-lucide="activity" class="w-4 h-4 text-tactical-emerald"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">228 / 233</div>
-            <div class="text-[11px] text-tactical-rose flex items-center gap-1 font-mono">
-              <span>2 congeladas · 3 sin enlace</span>
+            <!-- Datos técnicos del fotograma -->
+            <div class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/60 font-mono text-[10px] text-slate-300 backdrop-blur">
+              <span id="simuladorCamaraId">CAM-001 · Av. Riva Agüero cdra. 5</span>
             </div>
           </div>
 
         </div>
 
-        <!-- Simulación de la Consola de Monitoreo: Video Wall + Ventana de Validación -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Columna Derecha: Tarjeta de Decisión Humana -->
+        <div class="lg:col-span-5 glass-surface rounded-2xl p-6 sm:p-8 border border-white/10 space-y-6">
           
-          <!-- Lado Izquierdo: Simulación de Cámara en Vivo con Detecciones -->
-          <div class="lg:col-span-7 glass-card rounded-2xl p-6 border border-white/10 space-y-4">
-            <div class="flex items-center justify-between border-b border-white/10 pb-3">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-tactical-rose animate-pulse"></span>
-                <span class="font-mono font-bold text-xs text-white">CAM-001 · AV. RIVA AGÜERO / VALLEJO</span>
-                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-cyan/20 text-tactical-cyan border border-tactical-cyan/30">STREAM EN VIVO</span>
-              </div>
-              <span class="text-xs font-mono text-slate-400">SECTOR 1 · CENTRO</span>
+          <div class="space-y-1 border-b border-white/10 pb-4">
+            <div class="flex items-center justify-between text-xs font-mono">
+              <span class="text-terracotta-400 font-bold">HIPÓTESIS DE IA GENERADA</span>
+              <span class="text-slate-400">Latencia: 78 ms</span>
             </div>
+            <h3 class="text-xl font-serif text-white font-medium" id="simuladorCasoTitulo">
+              Posible Gresca / Riña Callejera
+            </h3>
+            <p class="text-xs text-slate-400 leading-relaxed" id="simuladorCasoDesc">
+              El rastreador ByteTrack identifica dos personas que entraron en contacto acelerado con agitación cinética sostenida durante 1.8 segundos.
+            </p>
+          </div>
 
-            <!-- Feed Simulado Interactivo con Cajas Delimitadoras de IA -->
-            <div class="relative aspect-video rounded-xl bg-obsidian-900 overflow-hidden border border-slate-700/60 flex items-center justify-center">
-              
-              <!-- Imagen / Fondo de calle urbana simulada -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 z-10 pointer-events-none"></div>
-              
-              <!-- Patrón de malla de fondo simulando video nocturno -->
-              <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
-
-              <!-- Retícula táctica de cámara -->
-              <div class="absolute top-4 left-4 z-20 font-mono text-[10px] text-tactical-emerald space-y-0.5">
-                <div>FPS: 24.8 | ONNX WebGPU: 78ms</div>
-                <div>RES: 1920x1080 -> RF-DETR: 576x576</div>
-                <div>BYTE TRACK: 8 OBJETOS ACTIVOS</div>
-              </div>
-
-              <div class="absolute top-4 right-4 z-20 font-mono text-[10px] text-slate-300 bg-black/60 px-2 py-1 rounded">
-                12-SEP-2026 21:42:15 UTC-5
-              </div>
-
-              <!-- Simulación de Cajas de Detección de Objetos en Pantalla -->
-              <!-- Objeto 1: Persona con Alerta -->
-              <div class="absolute top-[28%] left-[32%] w-[26%] h-[48%] border-2 border-tactical-rose z-20 rounded bg-tactical-rose/10 flex flex-col justify-between p-1 animate-pulse">
-                <span class="bg-tactical-rose text-white text-[9px] font-mono font-bold px-1 rounded w-fit">
-                  POSIBLE GRESCA 94%
-                </span>
-                <span class="text-[8px] font-mono text-tactical-rose bg-black/80 px-1 rounded w-fit">
-                  2 personas en contacto violento (1.8s)
-                </span>
-              </div>
-
-              <!-- Objeto 2: Vehículo en calle -->
-              <div class="absolute top-[45%] right-[12%] w-[24%] h-[35%] border border-tactical-cyan/60 z-20 rounded bg-tactical-cyan/5 p-1">
-                <span class="bg-tactical-cyan text-obsidian-950 text-[9px] font-mono font-bold px-1 rounded w-fit">
-                  VEHÍCULO 98%
-                </span>
-              </div>
-
-              <!-- Objeto 3: Mototaxi -->
-              <div class="absolute top-[50%] left-[8%] w-[18%] h-[30%] border border-slate-500/60 z-20 rounded bg-slate-500/5 p-1">
-                <span class="bg-slate-700 text-slate-200 text-[9px] font-mono font-bold px-1 rounded w-fit">
-                  MOTO 91%
-                </span>
-              </div>
-
-              <div class="z-10 text-center pointer-events-none">
-                <i data-lucide="crosshair" class="w-12 h-12 text-tactical-cyan/40 mx-auto animate-pulse-slow"></i>
-                <span class="text-xs font-mono text-slate-400 mt-2 block">Inferencia en Tiempo Real Activa</span>
-              </div>
+          <!-- Unidad recomendada mediante ruteo vial A* -->
+          <div class="space-y-2 text-xs font-mono bg-white/5 p-4 rounded-xl border border-white/5">
+            <div class="text-slate-400">DESPACHO TÁCTICO RECOMENDADO (A*):</div>
+            <div class="text-white font-bold flex items-center justify-between">
+              <span id="simuladorUnidad">Patrullero M-01 (Sector 1)</span>
+              <span class="text-cyan-400" id="simuladorETA">ETA: 1m 40s</span>
             </div>
-
-            <!-- Botones de prueba de eventos simulados -->
-            <div class="flex items-center justify-between pt-2">
-              <span class="text-xs font-mono text-slate-400">Simular conmutación de evento en pantalla:</span>
-              <div class="flex gap-2">
-                <button onclick="simularEventoConsola('gresca')" class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-obsidian-700 text-[11px] font-mono text-tactical-rose border border-tactical-rose/30">
-                  Gresca
-                </button>
-                <button onclick="simularEventoConsola('desmonte')" class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-obsidian-700 text-[11px] font-mono text-tactical-amber border border-tactical-amber/30">
-                  Desmonte
-                </button>
-                <button onclick="simularEventoConsola('caida')" class="px-2.5 py-1 rounded bg-obsidian-800 hover:bg-obsidian-700 text-[11px] font-mono text-tactical-cyan border border-tactical-cyan/30">
-                  Caída
-                </button>
-              </div>
+            <div class="text-[11px] text-slate-400" id="simuladorRuta">
+              Vía óptima: Av. César Vallejo con cruce en Jr. Áncash
             </div>
           </div>
 
-          <!-- Lado Derecho: Ventana de Validación Humana Obligatoria -->
-          <div class="lg:col-span-5 glass-card rounded-2xl p-6 border border-terracotta-500/40 space-y-4">
-            <div class="flex items-center justify-between border-b border-white/10 pb-3">
-              <div class="flex items-center gap-2">
-                <i data-lucide="shield-alert" class="w-4 h-4 text-terracotta-400"></i>
-                <span class="font-mono font-bold text-xs text-white">VENTANA DE VALIDACIÓN OBLIGATORIA</span>
-              </div>
-              <span class="px-2 py-0.5 rounded bg-tactical-rose/20 text-tactical-rose text-[10px] font-mono font-bold">ALERTA ACTIVA</span>
-            </div>
-
-            <div class="space-y-3 font-mono text-xs">
-              <div class="p-3 rounded-lg bg-obsidian-900 border border-white/5 space-y-1.5">
-                <div class="text-slate-400 text-[11px]">HIPÓTESIS FUNDAMENTADA:</div>
-                <div class="text-sm font-bold text-white flex items-center gap-2" id="eventoTitulo">
-                  <span>🔴 POSIBLE GRESCA / RIÑA</span>
-                </div>
-                <div class="text-[11px] text-slate-300" id="eventoSenal">
-                  Señal: &ge;2 personas en contacto próximo + agitación cinética sostenida durante 1.8 s.
-                </div>
-              </div>
-
-              <div class="p-3 rounded-lg bg-obsidian-900 border border-white/5 space-y-1">
-                <div class="flex justify-between text-slate-400">
-                  <span>Ubicación:</span>
-                  <span class="text-white">Av. Riva Agüero cdra. 5 (S1)</span>
-                </div>
-                <div class="flex justify-between text-slate-400">
-                  <span>Cámara:</span>
-                  <span class="text-white">CAM-001 (Domo PTZ)</span>
-                </div>
-                <div class="flex justify-between text-slate-400">
-                  <span>Unidad Recomendada:</span>
-                  <span class="text-tactical-cyan font-bold">Patrullero M-01 (ETA: 1m 45s)</span>
-                </div>
-                <div class="flex justify-between text-slate-400">
-                  <span>Ruta vial calculada:</span>
-                  <span class="text-tactical-emerald">A* por Av. César Vallejo</span>
-                </div>
-              </div>
-
-              <!-- Botonera de Decisión del Operador -->
-              <div class="pt-2 space-y-2">
-                <button onclick="alert('Demostración: Incidente VALIDADO. Se despachó el Patrullero M-01 y se actualizó la máquina de estados a DESPACHADO.')" class="w-full py-2.5 rounded-lg bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-lg shadow-terracotta-500/20">
-                  <i data-lucide="send" class="w-4 h-4"></i>
-                  <span>VALIDAR Y DESPACHAR UNIDAD</span>
-                </button>
-                <div class="grid grid-cols-2 gap-2">
-                  <button onclick="alert('Demostración: Incidente VALIDADO sin despacho inmediato. Queda registrado en bitácora para seguimiento.')" class="py-2 rounded-lg bg-obsidian-800 hover:bg-obsidian-700 text-slate-200 text-xs font-medium border border-white/10 transition">
-                    Solo Validar
-                  </button>
-                  <button onclick="alert('Demostración: Incidente DESCARTADO. La escena se envía automáticamente como NORMAL al clasificador para calibración local.')" class="py-2 rounded-lg bg-obsidian-800 hover:bg-tactical-rose/20 text-slate-400 hover:text-tactical-rose text-xs font-medium border border-white/10 transition">
-                    Descartar (Falso Positivo)
-                  </button>
-                </div>
-              </div>
-
-              <p class="text-[10px] text-slate-500 text-center italic pt-1">
-                La máquina de estados bloquea el despacho automático: ninguna unidad sale sin autorización humana verificada.
-              </p>
-            </div>
+          <!-- Botones de Acción -->
+          <div class="space-y-3 pt-2">
+            <button onclick="ejecutarDecision('validar')" class="w-full py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs font-mono transition flex items-center justify-center gap-2 shadow-lg shadow-terracotta-500/20">
+              <i data-lucide="check" class="w-4 h-4"></i>
+              <span>VALIDAR Y DESPACHAR UNIDAD</span>
+            </button>
+            <button onclick="ejecutarDecision('descartar')" class="w-full py-3 rounded-xl bg-white/5 hover:bg-rose-500/20 text-slate-300 hover:text-rose-400 font-medium text-xs font-mono border border-white/10 transition flex items-center justify-center gap-2">
+              <i data-lucide="x" class="w-4 h-4"></i>
+              <span>DESCARTAR (APRENDIZAJE DE FALSO POSITIVO)</span>
+            </button>
           </div>
 
-        </div>
-
-      </div>
-
-      <!-- ============================================================== -->
-      <!-- CONTENEDOR 2: PANEL OPERADORES DE A PIE (SERENAZGO EN TERRENO) -->
-      <!-- ============================================================== -->
-      <div id="panelCampo" class="space-y-8 hidden">
-        
-        <!-- Tarjetas de Métricas de Campo -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>TIEMPO DE ARRIBO (ETA)</span>
-              <i data-lucide="clock" class="w-4 h-4 text-tactical-cyan"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">3m 40s</div>
-            <div class="text-[11px] text-tactical-emerald flex items-center gap-1 font-mono">
-              <i data-lucide="trending-down" class="w-3 h-3"></i>
-              <span>Antes: 14m 20s tradicional</span>
-            </div>
-          </div>
-
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>SERENOS CONECTADOS</span>
-              <i data-lucide="users" class="w-4 h-4 text-tactical-emerald"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">18 de 20</div>
-            <div class="text-[11px] text-slate-400 font-mono">
-              En servicio en 5 sectores
-            </div>
-          </div>
-
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>REPORTES SIN CONEXIÓN</span>
-              <i data-lucide="wifi-off" class="w-4 h-4 text-tactical-amber"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">100%</div>
-            <div class="text-[11px] text-tactical-emerald font-mono">
-              Sincronización IndexedDB PWA
-            </div>
-          </div>
-
-          <div class="glass-card rounded-xl p-5 border border-white/10">
-            <div class="flex items-center justify-between text-slate-400 text-xs font-mono mb-2">
-              <span>COBERTURA EN CALLE</span>
-              <i data-lucide="shield" class="w-4 h-4 text-tactical-cyan"></i>
-            </div>
-            <div class="text-2xl sm:text-3xl font-mono font-bold text-white mb-1">84.2%</div>
-            <div class="text-[11px] text-tactical-cyan font-mono">
-              Cuadrantes patrullados hoy
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Simulador de la App Móvil de Terreno (VIGÍA Campo) -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          <!-- Mockup Interactivo de Smartphone con VIGÍA Campo -->
-          <div class="lg:col-span-5 flex justify-center">
-            <div class="w-full max-w-[340px] bg-obsidian-950 rounded-[36px] p-4 border-4 border-slate-700/80 shadow-2xl shadow-black/80 relative">
-              
-              <!-- Muesca / Isla dinámica -->
-              <div class="w-28 h-4 bg-slate-800 rounded-full mx-auto mb-3"></div>
-
-              <!-- Pantalla de la PWA Móvil -->
-              <div class="bg-obsidian-900 rounded-[24px] p-4 space-y-4 border border-white/10">
-                
-                <!-- Cabecera de la App Móvil -->
-                <div class="flex items-center justify-between border-b border-white/10 pb-2">
-                  <div>
-                    <div class="text-[10px] font-mono text-terracotta-400 font-bold">VIGÍA CAMPO · SERENO</div>
-                    <div class="text-xs font-bold text-white">SER-014 · J. MENDOZA</div>
-                  </div>
-                  <span class="w-2 h-2 rounded-full bg-tactical-emerald animate-pulse" title="GPS Activo"></span>
-                </div>
-
-                <!-- Selector de Estado del Sereno en Terreno -->
-                <div class="space-y-1.5">
-                  <div class="flex justify-between text-[11px] font-mono text-slate-400">
-                    <span>MI ESTADO ACTUAL:</span>
-                    <span id="estadoSerenoLabel" class="text-tactical-emerald font-bold">DISPONIBLE</span>
-                  </div>
-                  <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-                    <button onclick="cambiarEstadoSereno('DISPONIBLE')" class="btn-estado py-1.5 rounded bg-tactical-emerald/20 text-tactical-emerald border border-tactical-emerald/40 font-bold">
-                      DISPONIBLE
-                    </button>
-                    <button onclick="cambiarEstadoSereno('PATRULLANDO')" class="btn-estado py-1.5 rounded bg-obsidian-800 text-slate-400 hover:text-white border border-white/5">
-                      PATRULLANDO
-                    </button>
-                    <button onclick="cambiarEstadoSereno('EN RUTA')" class="btn-estado py-1.5 rounded bg-obsidian-800 text-slate-400 hover:text-white border border-white/5">
-                      EN RUTA
-                    </button>
-                    <button onclick="cambiarEstadoSereno('EN EL PUNTO')" class="btn-estado py-1.5 rounded bg-obsidian-800 text-slate-400 hover:text-white border border-white/5">
-                      EN EL PUNTO
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Tarjeta de Despacho Asignado -->
-                <div class="p-3 rounded-xl bg-obsidian-850 border border-tactical-amber/30 space-y-2">
-                  <div class="flex items-center justify-between text-[10px] font-mono">
-                    <span class="text-tactical-amber font-bold flex items-center gap-1">
-                      <i data-lucide="bell" class="w-3 h-3"></i>
-                      <span>DESPACHO ASIGNADO</span>
-                    </span>
-                    <span class="text-slate-400">Hace 1 min</span>
-                  </div>
-                  <div class="text-xs font-bold text-white">POSIBLE GRESCA / ALTERCADO</div>
-                  <div class="text-[11px] text-slate-300">Av. Riva Agüero con Vallejo</div>
-                  <div class="flex items-center justify-between text-[10px] font-mono pt-1 text-slate-400">
-                    <span>Ruta A*: 240 m</span>
-                    <span class="text-tactical-cyan font-bold">ETA: 1m 20s</span>
-                  </div>
-                  <button onclick="alert('Abriendo ruteo vial guiado en el mapa de campo...')" class="w-full py-1.5 rounded bg-tactical-cyan/20 hover:bg-tactical-cyan/30 text-tactical-cyan text-xs font-mono font-bold border border-tactical-cyan/40 transition">
-                    VER RUTA AL PUNTO
-                  </button>
-                </div>
-
-                <!-- Botón de Envío Rápido de Reporte -->
-                <button onclick="alert('Simulación: Formulario de nuevo reporte con cámara y GPS activados. Si no hay señal, se guarda en cola offline.')" class="w-full py-2 rounded-lg bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow">
-                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
-                  <span>CREAR REPORTE CON FOTO</span>
-                </button>
-
-              </div>
-            </div>
-          </div>
-
-          <!-- Lado Derecho: Explicación de los Canales de Campo -->
-          <div class="lg:col-span-7 glass-card rounded-2xl p-6 sm:p-8 border border-white/10 space-y-6">
-            <div>
-              <span class="text-xs font-mono text-tactical-amber font-bold uppercase">ARQUITECTURA DE CAMPO PWA</span>
-              <h3 class="text-xl font-bold text-white mt-1">
-                Robustez sin Dependencia de Conexión en Cerros y Quebradas
-              </h3>
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mt-2">
-                La geografía de El Agustino incluye zonas altas (Cerro San Pedro, Cerro El Agustino) con intermitencia de cobertura celular. VIGÍA Campo está diseñada bajo el paradigma <strong>Offline-First</strong>:
-              </p>
-            </div>
-
-            <div class="space-y-3 text-xs">
-              <div class="flex gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-                <div class="w-8 h-8 rounded-lg bg-tactical-emerald/20 text-tactical-emerald flex items-center justify-center shrink-0">
-                  <i data-lucide="database" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Cola Local Persistente (IndexedDB)</h4>
-                  <p class="text-slate-400">Si el sereno toma una foto de un desmonte sin internet, la evidencia se encripta localmente y se transmite de inmediato en cuanto se detecta señal 3G/4G o WiFi.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-                <div class="w-8 h-8 rounded-lg bg-tactical-cyan/20 text-tactical-cyan flex items-center justify-center shrink-0">
-                  <i data-lucide="map-pin" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Geolocalización Continua y Estado</h4>
-                  <p class="text-slate-400">Central visualiza en tiempo real la posición de los serenos de pie, motos y patrullas para recomendar siempre el recurso con menor tiempo real de viaje.</p>
-                </div>
-              </div>
-
-              <div class="flex gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-                <div class="w-8 h-8 rounded-lg bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center shrink-0">
-                  <i data-lucide="users" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="font-bold text-white">Canal Ciudadano Anónimo o Verificado</h4>
-                  <p class="text-slate-400">Los vecinos pueden reportar emergencias desde su móvil sin descargar aplicaciones pesadas, recibiendo un código único para fiscalizar la intervención municipal.</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
+          <!-- Mensaje de Retroalimentación del Modelo -->
+          <div id="simuladorFeedback" class="hidden p-3.5 rounded-xl bg-obsidian-900 border border-white/10 font-mono text-xs text-slate-300 transition-all"></div>
 
         </div>
 
@@ -1167,669 +436,315 @@
 
   <!-- ============================================================== -->
   <!-- SECCIÓN 04: MAPA TÁCTICO INTERACTIVO DE EL AGUSTINO -->
-  <!-- Sectores, Cámaras con Conos, Patrullas y Serenos de Pie -->
   <!-- ============================================================== -->
-  <section id="mapa-tactico" class="py-20 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="mapa" class="py-24 bg-obsidian-900/40 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10">
         <div>
-          <span class="text-xs font-mono uppercase tracking-widest text-tactical-cyan">04 · CARTOGRAFÍA OPERATIVA</span>
-          <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1">
-            Mapa Táctico del Distrito de El Agustino
+          <span class="font-mono text-xs text-cyan-400 uppercase tracking-widest">04 · Cartografía de Operaciones</span>
+          <h2 class="text-3xl sm:text-5xl font-serif text-white font-light mt-2">
+            El Agustino en Tiempo Real
           </h2>
         </div>
-        <p class="text-xs sm:text-sm text-slate-400 max-w-md mt-2 md:mt-0">
-          Georreferenciación en tiempo real de los 5 sectores, cámaras con sus conos de cobertura y unidades de respuesta rápida.
+        <p class="text-sm text-slate-400 max-w-md mt-4 md:mt-0 font-light">
+          Geometría distrital real: 5 sectores operativos, cámaras con sus conos de cobertura y unidades conectadas.
         </p>
-      </div>
-
-      <!-- Filtros de Capas del Mapa -->
-      <div class="glass-card rounded-xl p-3 mb-4 flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="text-slate-400 mr-1">CAPAS:</span>
-          <button onclick="toggleMapLayer('sectores')" id="layerBtnSectores" class="px-2.5 py-1 rounded bg-tactical-cyan/20 text-tactical-cyan border border-tactical-cyan/40 font-bold">
-            ✓ 5 Sectores
-          </button>
-          <button onclick="toggleMapLayer('camaras')" id="layerBtnCamaras" class="px-2.5 py-1 rounded bg-terracotta-500/20 text-terracotta-400 border border-terracotta-500/40 font-bold">
-            ✓ 12 Cámaras Muestra
-          </button>
-          <button onclick="toggleMapLayer('unidades')" id="layerBtnUnidades" class="px-2.5 py-1 rounded bg-tactical-emerald/20 text-tactical-emerald border border-tactical-emerald/40 font-bold">
-            ✓ Patrullas & Motos
-          </button>
-          <button onclick="toggleMapLayer('serenos')" id="layerBtnSerenos" class="px-2.5 py-1 rounded bg-tactical-amber/20 text-tactical-amber border border-tactical-amber/40 font-bold">
-            ✓ Serenos de a Pie
-          </button>
-        </div>
-        <div class="text-[11px] text-slate-400">
-          Centro: <span class="text-white font-bold">-12.0453, -76.9928</span> | Ruteo Vial: <span class="text-tactical-emerald font-bold">A* Activo</span>
-        </div>
       </div>
 
       <!-- Contenedor del Mapa Leaflet -->
-      <div class="glass-card rounded-2xl overflow-hidden border border-white/10 relative">
-        <div id="tacticalMap" class="w-full h-[520px] z-10"></div>
+      <div class="rounded-2xl overflow-hidden glass-surface border border-white/10 relative shadow-2xl">
+        <div id="mapaAgustino" class="w-full h-[520px]"></div>
         
-        <!-- Leyenda Flotante sobre el Mapa -->
-        <div class="absolute bottom-4 left-4 z-20 glass-card rounded-xl p-3 border border-white/10 text-[11px] font-mono space-y-1.5 hidden sm:block max-w-xs shadow-lg">
-          <div class="text-slate-300 font-bold border-b border-white/10 pb-1">LEYENDA OPERATIVA</div>
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-tactical-cyan/80"></span>
-            <span>S1 Centro · S2 Ribera · S3 Alturas</span>
-          </div>
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-terracotta-500"></span>
-            <span>Cámara con Cono de Cobertura</span>
-          </div>
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-tactical-emerald"></span>
-            <span>Patrullero / Moto en Servicio</span>
-          </div>
-          <div class="flex items-center gap-2 text-slate-300">
-            <span class="w-3 h-3 rounded-full bg-tactical-amber"></span>
-            <span>Sereno de a Pie (GPS en Vivo)</span>
-          </div>
-        </div>
-
-        <!-- Botón de Simulación de Despacho en Mapa -->
-        <div class="absolute top-4 right-4 z-20">
-          <button onclick="simularDespachoEnMapa()" class="px-3.5 py-2 rounded-lg bg-obsidian-900/90 hover:bg-obsidian-800 text-terracotta-400 text-xs font-mono font-bold border border-terracotta-500/40 shadow-xl flex items-center gap-2 transition">
-            <i data-lucide="navigation" class="w-4 h-4"></i>
-            <span>Simular Ruteo A* en Vivo</span>
+        <!-- Controles flotantes en el mapa -->
+        <div class="absolute top-4 right-4 z-20 flex gap-2">
+          <button onclick="centrarMapa()" class="px-3.5 py-1.5 rounded-full bg-obsidian-900/90 text-slate-200 text-xs font-mono border border-white/10 hover:bg-obsidian-800 transition">
+            Recentrar Distrito
           </button>
         </div>
+
+        <!-- Leyenda Compacta -->
+        <div class="absolute bottom-4 left-4 z-20 px-4 py-2.5 rounded-xl glass-pill text-xs font-mono flex items-center gap-4 text-slate-300 hidden sm:flex">
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-terracotta-400"></span> Cámaras</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Patrulleros</span>
+          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span> Serenos de Pie</span>
+        </div>
       </div>
 
     </div>
   </section>
 
   <!-- ============================================================== -->
-  <!-- SECCIÓN 05: CATÁLOGO DE LOS 9 EVENTOS ANALÍTICOS DE IA -->
+  <!-- SECCIÓN 05: DEL MURO DE CÁMARAS A LOS SERENOS DE A PIE -->
   <!-- ============================================================== -->
-  <section id="eventos-ia" class="py-20 bg-obsidian-900/50 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="terreno" class="py-24 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-xs font-mono uppercase tracking-widest text-terracotta-400">05 · CATÁLOGO OPERATIVO DE EVENTOS</span>
-        <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1 mb-4">
-          Nueve Reglas Analíticas Calibradas para El Agustino
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Cada evento requiere evidencia de objetos detectados (personas, vehículos, bultos) y continuidad temporal antes de proponerse al operador, eliminando las falsas alarmas provocadas por sombras o movimiento de follaje.
-        </p>
-      </div>
-
-      <!-- Cuadrícula de los 9 Eventos + Protocolo Sísmico -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         
-        <!-- 1. Gresca -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🔴</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-rose/20 text-tactical-rose border border-tactical-rose/30 font-bold">PRIORIDAD ALTA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Posible Gresca / Riña</h3>
-          <p class="text-xs text-slate-300">Conatos de agresión física y forcejeos callejeros en vía pública.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> &ge;2 personas en contacto próximo + agitación cinética sostenida 1.5 s.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Patrullero / Apoyo policial</div>
+        <!-- Mockup Móvil Real de VIGÍA Campo -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative max-w-[320px] rounded-2xl overflow-hidden shadow-2xl border border-white/15">
+            <img src="assets/aida_app_mockup.png" alt="App Móvil VIGIA Campo" class="w-full h-auto object-cover">
           </div>
         </div>
 
-        <!-- 2. Aglomeración -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🟡</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-amber/20 text-tactical-amber border border-tactical-amber/30 font-bold">PRIORIDAD MEDIA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Aglomeración Anómala</h3>
-          <p class="text-xs text-slate-300">Concentración inusual de grupos en paraderos, esquinas y espacios no permitidos.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> &ge;12 personas simultáneas durante más de 1.8 segundos continuos.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Sereno a pie / Moto de patrullaje</div>
-          </div>
-        </div>
-
-        <!-- 3. Persona en el suelo -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🔴</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-rose/20 text-tactical-rose border border-tactical-rose/30 font-bold">PRIORIDAD CRÍTICA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Persona en el Suelo / Caída</h3>
-          <p class="text-xs text-slate-300">Transeúntes descompensados, víctimas de asalto («pepeo») o emergencias médicas.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Colapso vertical del centroide seguido de inmovilidad en calzada/acera.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Ambulancia municipal / Rescate</div>
-          </div>
-        </div>
-
-        <!-- 4. Basura fuera de horario -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🟡</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-amber/20 text-tactical-amber border border-tactical-amber/30 font-bold">PRIORIDAD MEDIA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Disposición Clandestina de Basura</h3>
-          <p class="text-xs text-slate-300">Arrojo de residuos sólidos domiciliarios fuera del horario regulado (20:00–23:00).</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Bulto estático &gt;2.6 s + persona cerca en ventana de hora no permitida.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Fiscalización / Moto Serenazgo</div>
-          </div>
-        </div>
-
-        <!-- 5. Desmonte y escombros -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🔴</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-terracotta-500/20 text-terracotta-400 border border-terracotta-500/30 font-bold">PRIORIDAD ALTA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Arrojo Ilegal de Desmonte</h3>
-          <p class="text-xs text-slate-300">Descarga de costales y desmonte de construcción en bermas centrales y riberas.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Camión/motofurgón detenido + acumulación sostenida de masa estática.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Patrullero / Serenazgo Ambiental</div>
-          </div>
-        </div>
-
-        <!-- 6. Intrusión -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🔴</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-rose/20 text-tactical-rose border border-tactical-rose/30 font-bold">PRIORIDAD ALTA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Posible Intrusión Perimetral</h3>
-          <p class="text-xs text-slate-300">Ingreso no autorizado en locales municipales, depósitos, losas o parques cercados.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Persona con permanencia &gt;2.5 s en polígono virtual restringido de noche.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Patrullero / Alerta inmediata</div>
-          </div>
-        </div>
-
-        <!-- 7. Accidente vehicular -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🚨</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-amber/20 text-tactical-amber border border-tactical-amber/30 font-bold">PRIORIDAD ALTA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Accidente / Colisión Vehicular</h3>
-          <p class="text-xs text-slate-300">Impactos, despistes o detención anómala en corredores de alta velocidad (Evitamiento/Ayllón).</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> 2 vehículos en circulación solapados &gt;30% y detenidos a la vez bruscamente.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Patrullero / Ambulancia</div>
-          </div>
-        </div>
-
-        <!-- 8. Humo / Incendio -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">🔥</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-rose/20 text-tactical-rose border border-tactical-rose/30 font-bold">PRIORIDAD CRÍTICA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Conato de Incendio y Humo</h3>
-          <p class="text-xs text-slate-300">Columnas de humo denso o fuego en talleres, laderas de cerro o zonas comerciales.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Señal fotométrica ascendente sostenida en rango cromático cálido.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Compañía de Bomberos / Rescate</div>
-          </div>
-        </div>
-
-        <!-- 9. Integridad de Red (Heartbeat) -->
-        <div class="glass-card rounded-xl p-5 border border-white/10 glass-card-hover space-y-3">
-          <div class="flex items-center justify-between">
-            <span class="text-xl">⚙️</span>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-tactical-cyan/20 text-tactical-cyan border border-tactical-cyan/30 font-bold">INFRAESTRUCTURA</span>
-          </div>
-          <h3 class="text-base font-bold text-white">Monitoreo de Salud de Red</h3>
-          <p class="text-xs text-slate-300">Detección inmediata de cámaras congeladas, desenfocadas, desconectadas o con reloj desfasado.</p>
-          <div class="p-2.5 rounded bg-obsidian-900 font-mono text-[11px] text-slate-400 border border-white/5 space-y-1">
-            <div><strong>Señal:</strong> Cero variación de píxeles (cámara congelada) o caída de fps. Abre ticket.</div>
-            <div class="text-tactical-cyan"><strong>Recurso:</strong> Cuadrilla de Soporte Técnico TIC</div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Banner de Protocolo Sísmico Especial -->
-      <div class="mt-8 glass-card rounded-2xl p-6 border border-tactical-rose/30 bg-gradient-to-r from-tactical-rose/10 via-obsidian-900 to-obsidian-900 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-tactical-rose/20 text-tactical-rose flex items-center justify-center shrink-0 border border-tactical-rose/40">
-            <i data-lucide="activity" class="w-6 h-6 animate-pulse"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-mono text-xs font-bold text-tactical-rose uppercase tracking-wider">MÓDULO DE DEFENSA CIVIL</span>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white">SIMULACIÓN DISPONIBLE</span>
-            </div>
-            <h3 class="text-lg font-bold text-white mt-0.5">Protocolo Operativo Sísmico y Desastres Mayores</h3>
-            <p class="text-xs text-slate-300 max-w-2xl">
-              Alarma de evacuación distrital, activación de unidades de rescate, cierre de vías bloqueadas con recálculo dinámico de rutas de ambulancia y mapas de impacto georreferenciados en laderas.
+        <!-- Explicación de la Aplicación de Campo -->
+        <div class="lg:col-span-7 space-y-6">
+          <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">05 · Canal de Campo Móvil (PWA)</span>
+          <h2 class="text-3xl sm:text-5xl font-serif text-white font-light">
+            La respuesta ocurre en la calle, no en los servidores.
+          </h2>
+          
+          <div class="space-y-4 text-slate-300 text-sm sm:text-base leading-relaxed font-light">
+            <p>
+              Una alerta de inteligencia artificial no sirve de nada si se queda atascada en la sala de pantallas. Por eso VIGÍA incluye una <strong>aplicación web progresiva (PWA) instalable</strong> directamente en los teléfonos de los serenos en terreno.
+            </p>
+            <p>
+              El sereno ingresa con su código y PIN oficial, comparte su ubicación en vivo y recibe despachos guiados por el <strong>grafo vial de El Agustino con algoritmo A*</strong>, acortando el tiempo de llegada de 14 minutos a <strong>3 minutos con 40 segundos</strong>.
+            </p>
+            <p>
+              Y lo más importante para la geografía de El Agustino: <strong>funciona sin conexión celular en las partes altas</strong> (Cerro San Pedro, Cerro El Agustino), encolando las fotografías y reportes en el dispositivo para transmitirlos automáticamente al recuperar señal.
             </p>
           </div>
+
+          <div class="pt-2 flex flex-wrap gap-3 font-mono text-xs text-slate-300">
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Sincronización Offline</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Sin Licencias por Usuario</span>
+            <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10">Canal Vecinal Anónimo</span>
+          </div>
         </div>
-        <button onclick="alert('Demostración: Activando vista del Protocolo Sísmico en el centro de operaciones...')" class="px-4 py-2.5 rounded-lg bg-tactical-rose hover:bg-rose-700 text-white font-mono text-xs font-bold transition shrink-0 shadow-lg shadow-tactical-rose/30 flex items-center gap-2">
-          <i data-lucide="alert-octagon" class="w-4 h-4"></i>
-          <span>Simular Protocolo Sísmico</span>
-        </button>
+
       </div>
 
     </div>
   </section>
 
   <!-- ============================================================== -->
-  <!-- SECCIÓN 06: ESTADO ACTUAL (QUÉ SE TIENE) VS ROADMAP (QUÉ SE ESPERA) -->
+  <!-- SECCIÓN 06: CONCURSO UPC Y PROYECTO PILOTO MUNICIPAL -->
   <!-- ============================================================== -->
-  <section id="roadmap" class="py-20 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="concurso-upc" class="py-24 bg-obsidian-900/60 border-b border-white/5 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-16">
-        <span class="text-xs font-mono uppercase tracking-widest text-tactical-cyan">06 · TRANSPARENCIA TÉCNICA E INTEGRIDAD</span>
-        <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1 mb-4">
-          Lo que Ya se Tiene Frente a lo que se Espera Implementar
+      <div class="max-w-3xl mb-16 space-y-3">
+        <span class="font-mono text-xs text-amber-400 uppercase tracking-widest">06 · Por qué VIGÍA en la UPC</span>
+        <h2 class="text-3xl sm:text-5xl font-serif text-white font-light">
+          Innovación con Impacto Social y Viabilidad Legal Inmediata.
         </h2>
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Distinción rigurosa y sin adornos comerciales entre las capacidades probadas en el prototipo funcional actual y las integraciones programadas para la fase de escalamiento.
+        <p class="text-sm sm:text-base text-slate-400 font-light">
+          A diferencia de proyectos teóricos de laboratorio, VIGÍA ya cuenta con expediente técnico formal ingresado a la Municipalidad Distrital de El Agustino bajo el marco de la <strong>Ley N° 32069</strong>.
         </p>
       </div>
 
-      <!-- Tabla Comparativa Exhaustiva -->
-      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-white/10 overflow-x-auto">
-        <table class="w-full text-left text-xs font-mono">
-          <thead>
-            <tr class="border-b border-white/10 text-slate-400">
-              <th class="pb-3 font-semibold">COMPONENTE</th>
-              <th class="pb-3 font-semibold text-tactical-emerald">LO QUE YA SE TIENE (PROBADO & OPERATIVO)</th>
-              <th class="pb-3 font-semibold text-terracotta-400">LO QUE SE ESPERA IMPLEMENTAR (PILOTO & ESCALAMIENTO)</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-white/5">
-            
-            <tr>
-              <td class="py-4 font-bold text-white">Motor de Visión e Inferencia</td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-tactical-emerald font-bold mb-1">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                  <span>RF-DETR Medium sobre ONNX Runtime</span>
-                </div>
-                78 ms por fotograma en WebGPU con ByteTrack. Banco de 56 fotogramas anotados a mano y 1,075 objetos reales medidos en banco local.
-              </td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-terracotta-400 font-bold mb-1">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  <span>Servidor GPU TensorRT Centralizado</span>
-                </div>
-                Desplazamiento del cómputo desde el navegador al servidor municipal dedicado para decodificar flujos RTSP directos de las 233 cámaras.
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-4 font-bold text-white">Clasificador de Segunda Etapa</td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-tactical-emerald font-bold mb-1">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                  <span>Red de 57 Rasgos Cinemáticos en JS</span>
-                </div>
-                Entrena en ~1 segundo en el navegador sin GPU. Realimentación en vivo con cada decisión de "Descartar" del operador.
-              </td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-terracotta-400 font-bold mb-1">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  <span>Curaduría de Muestras del Distrito</span>
-                </div>
-                Acumular entre 15 y 30 clips reales por clase directamente desde las esquinas de El Agustino para reemplazar el prior sintético.
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-4 font-bold text-white">Canales de Campo (Serenazgo)</td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-tactical-emerald font-bold mb-1">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                  <span>PWA Móvil con Cola Offline (IndexedDB)</span>
-                </div>
-                Reportes con fotos/clips, chat con Central, selector de estados operativos y autenticación con PIN seguro (PBKDF2).
-              </td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-terracotta-400 font-bold mb-1">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  <span>Integración al Padrón Oficial RRHH</span>
-                </div>
-                Conexión con el padrón formal de serenos de la Subgerencia de Serenazgo y asignación de radios Tetra / VHF institucionales.
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-4 font-bold text-white">Ciclo Operativo y Backend</td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-tactical-emerald font-bold mb-1">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                  <span>FastAPI + Máquina de Estados Estricta</span>
-                </div>
-                74 pruebas automatizadas. WebSocket en tiempo real con RBAC estricto y bitácora con firma digital verificada.
-              </td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-terracotta-400 font-bold mb-1">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  <span>Migración a PostgreSQL + Redis</span>
-                </div>
-                Reemplazo de SQLite por base de datos federada de alta concurrencia para soportar múltiples puestos de monitoreo concurrentes.
-              </td>
-            </tr>
-
-            <tr>
-              <td class="py-4 font-bold text-white">Integraciones de Emergencia</td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-tactical-emerald font-bold mb-1">
-                  <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-                  <span>Simulador de Protocolo Sísmico</span>
-                </div>
-                Ruteo alterno ante vías colapsadas, mapa de impacto por laderas y tablero en modo desastre.
-              </td>
-              <td class="py-4 text-slate-300">
-                <div class="flex items-center gap-1.5 text-terracotta-400 font-bold mb-1">
-                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-                  <span>Enlace con SASPe / IGP</span>
-                </div>
-                Integración con la API oficial del Sistema de Alerta Temprana Sísmica Peruano (SASPe) y sensores del Instituto Geofísico del Perú.
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ============================================================== -->
-  <!-- SECCIÓN 07: EL PROYECTO PILOTO DE 10 CÁMARAS (MESA DE PARTES) -->
-  <!-- Marco Legal Ley 32069 (8 UIT / S/ 44,000) y Equipo Proponente -->
-  <!-- ============================================================== -->
-  <section id="piloto" class="py-20 bg-obsidian-900/60 border-b border-white/10 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Tres pilares evaluados por jurados de innovación -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
         
-        <!-- Columna Izquierda: Sustento de la Propuesta -->
-        <div class="lg:col-span-7 space-y-6">
-          <div>
-            <span class="text-xs font-mono uppercase tracking-widest text-tactical-emerald">07 · PROPUESTA CONCRETA PARA ALCALDÍA</span>
-            <h2 class="text-3xl sm:text-4xl font-serif text-white font-medium mt-1">
-              Proyecto Piloto Controlado: 10 Cámaras Críticas (30 a 60 Días)
-            </h2>
+        <div class="glass-surface p-8 rounded-2xl border border-white/10 space-y-4">
+          <div class="w-10 h-10 rounded-full bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center font-mono font-bold text-sm">
+            01
           </div>
-
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Presentado formalmente mediante el <strong>Expediente Técnico de Mesa de Partes (Carta N° 001-2026/VECINOS-UNMSM/VIGIA)</strong> dirigido al Despacho del Alcalde <strong>Richard Robert Soria Fuerte</strong> y a la Gerencia de Seguridad Ciudadana.
+          <h3 class="text-lg font-serif text-white font-medium">Soberanía Tecnológica</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+            Las soluciones comerciales extranjeras cobran licencias en dólares por cámara al año. VIGÍA corre sobre hardware existente On-Premise, con modelos de código abierto y sin exponer el video a internet.
           </p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-            <div class="p-3.5 rounded-xl bg-obsidian-850 border border-white/10 space-y-1">
-              <span class="text-slate-400 text-[11px]">MARCO NORMATIVO:</span>
-              <div class="text-white font-bold text-sm">Ley N° 32069 (Art. 34°)</div>
-              <div class="text-tactical-emerald">Régimen de Contratación Menor</div>
-            </div>
-            <div class="p-3.5 rounded-xl bg-obsidian-850 border border-white/10 space-y-1">
-              <span class="text-slate-400 text-[11px]">PRESUPUESTO CERRADO:</span>
-              <div class="text-tactical-amber font-bold text-sm">S/ 44,000.00 PEN</div>
-              <div class="text-slate-400">Exactamente 8 UIT vigentes</div>
-            </div>
-          </div>
-
-          <div class="space-y-3 text-xs text-slate-300">
-            <div class="flex items-start gap-2.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span><strong>Selección Pareto de 10 Puntos Críticos:</strong> Av. Riva Agüero, Cerro San Pedro, Puente Nuevo / Evitamiento, Av. J.C. Mariátegui y Jr. Áncash.</span>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span><strong>Supervisión de toda la red:</strong> Módulo de Heartbeat vigilando las 233 cámaras existentes para detectar cámaras congeladas o fuera de línea.</span>
-            </div>
-            <div class="flex items-start gap-2.5">
-              <i data-lucide="check-circle" class="w-4 h-4 text-tactical-emerald shrink-0 mt-0.5"></i>
-              <span><strong>Capacitación y Cierre:</strong> 2 talleres prácticos para operadores de Serenazgo en los 3 turnos e informe técnico con auditoría forense.</span>
-            </div>
-          </div>
-
-          <div class="pt-2 flex flex-wrap items-center gap-4">
-            <button onclick="alert('El Expediente Técnico Completo con Memorias, Fichas de Servidor y TDRs sugeridos está generado en formato DOCX y PDF en el repositorio institucional.')" class="px-5 py-2.5 rounded-lg bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold text-xs transition shadow-lg shadow-terracotta-500/20 flex items-center gap-2">
-              <i data-lucide="file-text" class="w-4 h-4"></i>
-              <span>Solicitar Expediente Completo (FUT)</span>
-            </button>
-            <span class="text-xs font-mono text-slate-400">Expediente N° 001-2026</span>
-          </div>
         </div>
 
-        <!-- Columna Derecha: Equipo Proponente UNMSM y Vecinos -->
-        <div class="lg:col-span-5 glass-card rounded-2xl p-6 sm:p-8 border border-white/10 space-y-6">
-          <div class="border-b border-white/10 pb-4">
-            <span class="text-[11px] font-mono text-terracotta-400 font-bold tracking-widest uppercase">EQUIPO PROPONENTE ACREDITADO</span>
-            <h3 class="text-base font-bold text-white mt-1">Iniciativa Vecinal y Universidad San Marcos</h3>
+        <div class="glass-surface p-8 rounded-2xl border border-white/10 space-y-4">
+          <div class="w-10 h-10 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center font-mono font-bold text-sm">
+            02
           </div>
-
-          <div class="space-y-4 text-xs">
-            
-            <!-- Proponente 1 -->
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-              <div class="w-9 h-9 rounded-lg bg-terracotta-500/20 text-terracotta-400 flex items-center justify-center font-bold text-xs shrink-0">
-                JD
-              </div>
-              <div>
-                <h4 class="font-bold text-white">Julio Daniel Espejo Ferreyra</h4>
-                <p class="text-slate-400 font-mono text-[11px]">DNI N° 73422834 · Representante Común</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Vecino residente de El Agustino (Jr. Cristóbal Colón N° 1028, Proviv. II Zona).</p>
-              </div>
-            </div>
-
-            <!-- Proponente 2 -->
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-              <div class="w-9 h-9 rounded-lg bg-tactical-cyan/20 text-tactical-cyan flex items-center justify-center font-bold text-xs shrink-0">
-                JP
-              </div>
-              <div>
-                <h4 class="font-bold text-white">Joaquin Paul Jaime Allasi Alfaro</h4>
-                <p class="text-slate-400 font-mono text-[11px]">DNI N° 71455692 · Cód. UNMSM 23170129</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Coordinador de Proyecto, Facultad de Ingeniería Industrial — UNMSM.</p>
-              </div>
-            </div>
-
-            <!-- Proponente 3 -->
-            <div class="flex items-start gap-3 p-3 rounded-xl bg-obsidian-900 border border-white/5">
-              <div class="w-9 h-9 rounded-lg bg-tactical-emerald/20 text-tactical-emerald flex items-center justify-center font-bold text-xs shrink-0">
-                AK
-              </div>
-              <div>
-                <h4 class="font-bold text-white">Alvaro Kevin Palomino Corrales</h4>
-                <p class="text-slate-400 font-mono text-[11px]">DNI N° 77279038 · Especialista en Redes Neuronales</p>
-                <p class="text-slate-400 text-[11px] mt-0.5">Desarrollador de Inferencia y Modelos de Detección de Objetos en Tiempo Real.</p>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="p-3 rounded-lg bg-obsidian-950 border border-white/5 text-[11px] text-slate-400 font-mono text-center">
-            Convenio y marco de colaboración con la Facultad de Ingeniería Industrial — UNMSM.
-          </div>
+          <h3 class="text-lg font-serif text-white font-medium">Ética y Ley N° 29733</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+            Cero reconocimiento facial, cero perfilamiento ciudadano. VIGÍA analiza patrones geométricos de movimiento, cuidando la privacidad ciudadana y con validación humana obligatoria.
+          </p>
         </div>
 
+        <div class="glass-surface p-8 rounded-2xl border border-white/10 space-y-4">
+          <div class="w-10 h-10 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center font-mono font-bold text-sm">
+            03
+          </div>
+          <h3 class="text-lg font-serif text-white font-medium">Piloto por 8 UIT (S/ 44,000)</h3>
+          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed font-light">
+            Enmarcado en el Artículo 34° de la Ley N° 32069 (Contratación Menor directa), permitiendo a la alcaldía comprobar los resultados en 10 cámaras críticas antes de cualquier escalamiento.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Equipo Proponente: Vecinos y UNMSM -->
+      <div class="p-8 rounded-2xl glass-surface border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-mono text-slate-400 uppercase">Equipo de Investigación y Proponentes</span>
+          <h4 class="text-base font-serif text-white font-medium mt-1">
+            Julio Daniel Espejo Ferreyra · Joaquin Paul Jaime Allasi Alfaro · Alvaro Kevin Palomino Corrales
+          </h4>
+          <p class="text-xs text-slate-400 mt-1 font-light">
+            Iniciativa de vecinos agustinianos en cooperación con la Facultad de Ingeniería Industrial — Universidad Nacional Mayor de San Marcos.
+          </p>
+        </div>
+        <a href="#simulador" class="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white font-mono text-xs transition whitespace-nowrap">
+          Ver Demostración
+        </a>
       </div>
 
     </div>
   </section>
 
   <!-- ============================================================== -->
-  <!-- PIE DE PÁGINA INSTITUCIONAL -->
+  <!-- PIE DE PÁGINA SOBRIO Y ELEGANTE -->
   <!-- ============================================================== -->
-  <footer class="py-12 bg-obsidian-950 text-xs font-mono text-slate-400 border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="flex items-center gap-3">
-          <div class="w-7 h-7 rounded-md bg-terracotta-500/20 border border-terracotta-500/40 flex items-center justify-center text-terracotta-400 font-bold">
-            V
-          </div>
-          <div>
-            <span class="font-bold text-white text-sm">VIGÍA · PLATAFORMA DE OPERACIONES URBANAS</span>
-            <p class="text-[11px] text-slate-500">Municipalidad Distrital de El Agustino · Lima, Perú</p>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-6 text-[11px]">
-          <a href="#diagnostico" class="hover:text-white transition">Aritmética</a>
-          <a href="#solucion-ia" class="hover:text-white transition">Arquitectura</a>
-          <a href="#paneles-metricas" class="hover:text-white transition">Paneles</a>
-          <a href="#mapa-tactico" class="hover:text-white transition">Mapa</a>
-          <a href="#piloto" class="hover:text-white transition text-tactical-amber">Piloto 8 UIT</a>
-        </div>
+  <footer class="py-12 bg-obsidian-950 text-xs font-mono text-slate-500 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="text-slate-300 font-serif italic text-sm">Vigía</span> · Sistema de Videoanalítica Urbana para El Agustino
       </div>
-
-      <div class="border-t border-white/5 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-        <p>
-          © 2026 Equipo Proponente VIGÍA en cooperación con la FII - UNMSM. Licencias permisivas Apache 2.0 / MIT.
-        </p>
-        <p>
-          Desarrollado bajo principios de soberanía de datos y la Ley N° 29733.
-        </p>
+      <div>
+        Presentación Académica · Concurso de Innovación UPC 2026
       </div>
-
     </div>
   </footer>
 
   <!-- ============================================================== -->
-  <!-- SCRIPTS DE INTERACTIVIDAD (SLIDES, MAPA LEAFLET Y PANELES) -->
+  <!-- SCRIPTS DE INTERACTIVIDAD NATIVA -->
   <!-- ============================================================== -->
   <script>
-    // Inicializar iconos de Lucide
     lucide.createIcons();
 
     /* --------------------------------------------------------------
-     * 1. LÓGICA DEL CARROUSEL / SLIDESHOW HERO
+     * 1. SLIDER INTERACTIVO ANTES / DESPUÉS (SPLIT VIEW)
      * -------------------------------------------------------------- */
-    let currentSlide = 0;
-    const totalSlides = 4;
-    const slideBadges = [
-      'DIAPOSITIVA 1 / 4 · DIAGNÓSTICO',
-      'DIAPOSITIVA 2 / 4 · QUÉ HACE VIGÍA',
-      'DIAPOSITIVA 3 / 4 · COORDINACIÓN EN CAMPO',
-      'DIAPOSITIVA 4 / 4 · PROYECTO PILOTO'
-    ];
-    const slideContexts = [
-      'Aritmética del Servicio de Videovigilancia',
-      'Inferencia Local & Validación Humana',
-      'Enlace Operador de Cámara - Sereno de a Pie',
-      'Validación en 10 Cámaras Críticas (8 UIT)'
-    ];
+    const splitSlider = document.getElementById('splitSlider');
+    const splitSliderBefore = document.getElementById('splitSliderBefore');
+    const splitSliderHandle = document.getElementById('splitSliderHandle');
+    let isSliding = false;
 
-    let autoplayTimer = null;
-    let isAutoplay = false;
-
-    function showSlide(index) {
-      currentSlide = (index + totalSlides) % totalSlides;
-      
-      // Ocultar todas las diapositivas
-      const slides = document.querySelectorAll('.slide-content');
-      slides.forEach((s, idx) => {
-        if (idx === currentSlide) {
-          s.classList.remove('hidden');
-        } else {
-          s.classList.add('hidden');
-        }
-      });
-
-      // Actualizar indicadores textuales
-      document.getElementById('slideBadge').innerText = slideBadges[currentSlide];
-      document.getElementById('slideContext').innerText = slideContexts[currentSlide];
-      document.getElementById('slideIndexText').innerText = currentSlide + 1;
-
-      // Actualizar dots
-      const dots = document.querySelectorAll('.slide-dot');
-      dots.forEach((dot, idx) => {
-        if (idx === currentSlide) {
-          dot.classList.remove('w-3', 'bg-obsidian-700');
-          dot.classList.add('w-8', 'bg-terracotta-500');
-        } else {
-          dot.classList.remove('w-8', 'bg-terracotta-500');
-          dot.classList.add('w-3', 'bg-obsidian-700');
-        }
-      });
+    function setSliderPosition(x) {
+      const rect = splitSlider.getBoundingClientRect();
+      let pos = (x - rect.left) / rect.width;
+      if (pos < 0.05) pos = 0.05;
+      if (pos > 0.95) pos = 0.95;
+      const pct = (pos * 100).toFixed(1) + '%';
+      splitSliderBefore.style.width = pct;
+      splitSliderHandle.style.left = pct;
     }
 
-    function nextSlide() {
-      showSlide(currentSlide + 1);
-    }
+    splitSlider.addEventListener('mousedown', (e) => {
+      isSliding = true;
+      setSliderPosition(e.clientX);
+    });
+    window.addEventListener('mouseup', () => { isSliding = false; });
+    window.addEventListener('mousemove', (e) => {
+      if (isSliding) setSliderPosition(e.clientX);
+    });
 
-    function prevSlide() {
-      showSlide(currentSlide - 1);
-    }
-
-    function goToSlide(idx) {
-      showSlide(idx);
-    }
-
-    function toggleAutoplay() {
-      isAutoplay = !isAutoplay;
-      const status = document.getElementById('autoplayStatusText');
-      if (isAutoplay) {
-        status.innerText = 'Pausar';
-        autoplayTimer = setInterval(nextSlide, 7000);
-      } else {
-        status.innerText = 'Auto';
-        clearInterval(autoplayTimer);
-      }
-    }
-
-    // Navegación por teclado (Flechas izquierda/derecha)
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') nextSlide();
-      if (e.key === 'ArrowLeft') prevSlide();
+    // Soporte táctil en móviles
+    splitSlider.addEventListener('touchstart', (e) => {
+      isSliding = true;
+      setSliderPosition(e.touches[0].clientX);
+    });
+    window.addEventListener('touchend', () => { isSliding = false; });
+    window.addEventListener('touchmove', (e) => {
+      if (isSliding) setSliderPosition(e.touches[0].clientX);
     });
 
     /* --------------------------------------------------------------
-     * 2. LÓGICA DEL CONMUTADOR DE PANELES (CÁMARAS VS CAMPO)
+     * 2. SIMULADOR DE DECISIÓN HUMANA EN EL BUCLE (HUMAN-IN-THE-LOOP)
      * -------------------------------------------------------------- */
-    function switchPanelTab(tab) {
-      const pCamaras = document.getElementById('panelCamaras');
-      const pCampo = document.getElementById('panelCampo');
-      const btnCamaras = document.getElementById('tabCamarasBtn');
-      const btnCampo = document.getElementById('tabCampoBtn');
+    const casosData = {
+      1: {
+        img: 'assets/muestra_calle_1.jpg',
+        titulo: 'Posible Gresca / Riña Callejera',
+        desc: 'El detector identifica dos personas en contacto cerrado con patrones de aceleración motriz repetitiva durante 1.8 segundos.',
+        box: { top: '32%', left: '28%', width: '38%', height: '50%' },
+        boxTag: 'POSIBLE GRESCA 94%',
+        boxDetail: 'RF-DETR: 2 personas · Violencia cinética',
+        cam: 'CAM-001 · Av. Riva Agüero cdra. 5',
+        unidad: 'Patrullero M-01 (Sector 1)',
+        eta: 'ETA: 1m 40s',
+        ruta: 'Vía óptima: Av. César Vallejo con cruce en Jr. Áncash',
+        esFalso: false
+      },
+      2: {
+        img: 'assets/muestra_calle_2.jpg',
+        titulo: 'Descarga Comercial (Candidato a Falso Positivo)',
+        desc: 'Camión detenido con bultos estáticos. En horario diurno comercial es actividad regular de abastecimiento vecinal.',
+        box: { top: '40%', left: '35%', width: '32%', height: '42%' },
+        boxTag: 'POSIBLE DESMONTE 68%',
+        boxDetail: 'Clasificador 2ª etapa: Pendiente de confirmación',
+        cam: 'CAM-008 · Mercado Nicolás Ayllón',
+        unidad: 'Moto MOTO-02 (Sector 4)',
+        eta: 'ETA: 2m 10s',
+        ruta: 'Vía óptima: Prolongación Riva Agüero',
+        esFalso: true
+      },
+      3: {
+        img: 'assets/muestra_calle_4.jpg',
+        titulo: 'Persona Caída en Calzada Peatonal',
+        desc: 'Colapso vertical brusco de centroide corporal seguido de inmovilidad prolongada (>3s) en acera pública.',
+        box: { top: '48%', left: '42%', width: '28%', height: '36%' },
+        boxTag: 'PERSONA EN EL SUELO 98%',
+        boxDetail: 'Prioridad Crítica · Auxilio médico requerido',
+        cam: 'CAM-003 · Av. J.C. Mariátegui cdra. 6',
+        unidad: 'Ambulancia AMB-01 (Sector 1)',
+        eta: 'ETA: 2m 45s',
+        ruta: 'Corredor rápido: Av. Mariátegui directo',
+        esFalso: false
+      }
+    };
 
-      if (tab === 'camaras') {
-        pCamaras.classList.remove('hidden');
-        pCampo.classList.add('hidden');
-        btnCamaras.className = 'px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 bg-terracotta-500 text-white shadow';
-        btnCampo.className = 'px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 text-slate-400 hover:text-white';
-      } else {
-        pCamaras.classList.add('hidden');
-        pCampo.classList.remove('hidden');
-        btnCampo.className = 'px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 bg-terracotta-500 text-white shadow';
-        btnCamaras.className = 'px-5 py-2 rounded-lg text-xs font-mono font-bold transition flex items-center gap-2 text-slate-400 hover:text-white';
+    let casoActual = 1;
+
+    function cargarCasoSimulador(num) {
+      casoActual = num;
+      const c = casosData[num];
+
+      document.getElementById('simuladorImagen').src = c.img;
+      document.getElementById('simuladorCasoTitulo').innerText = c.titulo;
+      document.getElementById('simuladorCasoDesc').innerText = c.desc;
+      document.getElementById('simuladorCamaraId').innerText = c.cam;
+      document.getElementById('simuladorUnidad').innerText = c.unidad;
+      document.getElementById('simuladorETA').innerText = c.eta;
+      document.getElementById('simuladorRuta').innerText = c.ruta;
+
+      // Actualizar bounding box
+      const box = document.getElementById('simuladorBox');
+      box.style.top = c.box.top;
+      box.style.left = c.box.left;
+      box.style.width = c.box.width;
+      box.style.height = c.box.height;
+      document.getElementById('simuladorBoxTag').innerText = c.boxTag;
+      document.getElementById('simuladorBoxDetail').innerText = c.boxDetail;
+
+      // Resetear feedback
+      const fb = document.getElementById('simuladorFeedback');
+      fb.classList.add('hidden');
+
+      // Botones activos
+      for (let i = 1; i <= 3; i++) {
+        const b = document.getElementById(`btnCaso${i}`);
+        if (i === num) {
+          b.className = 'px-3 py-1.5 rounded-full bg-terracotta-500 text-white font-semibold transition';
+        } else {
+          b.className = 'px-3 py-1.5 rounded-full bg-white/5 text-slate-400 hover:text-white transition';
+        }
       }
     }
 
-    function cambiarEstadoSereno(estado) {
-      document.getElementById('estadoSerenoLabel').innerText = estado;
-      const btns = document.querySelectorAll('.btn-estado');
-      btns.forEach(b => {
-        if (b.innerText.trim() === estado) {
-          b.className = 'btn-estado py-1.5 rounded bg-tactical-emerald/20 text-tactical-emerald border border-tactical-emerald/40 font-bold';
-        } else {
-          b.className = 'btn-estado py-1.5 rounded bg-obsidian-800 text-slate-400 hover:text-white border border-white/5';
-        }
-      });
-    }
+    function ejecutarDecision(tipo) {
+      const fb = document.getElementById('simuladorFeedback');
+      const c = casosData[casoActual];
+      fb.classList.remove('hidden');
 
-    function simularEventoConsola(tipo) {
-      const tit = document.getElementById('eventoTitulo');
-      const sen = document.getElementById('eventoSenal');
-      if (tipo === 'gresca') {
-        tit.innerHTML = '<span>🔴 POSIBLE GRESCA / RIÑA</span>';
-        sen.innerText = 'Señal: ≥2 personas en contacto próximo + agitación cinética sostenida durante 1.8 s.';
-      } else if (tipo === 'desmonte') {
-        tit.innerHTML = '<span>🔴 POSIBLE ARROJO DE DESMONTE</span>';
-        sen.innerText = 'Señal: Camión de carga detenido + masa estática emergente en berma central fuera de norma.';
-      } else if (tipo === 'caida') {
-        tit.innerHTML = '<span>🔴 PERSONA EN EL SUELO / CAÍDA</span>';
-        sen.innerText = 'Señal: Colapso vertical de centroide seguido de inmovilidad en la calzada peatonal.';
+      if (tipo === 'validar') {
+        fb.innerHTML = `
+          <div class="text-emerald-400 font-bold mb-1">✓ INCIDENTE VALIDADO Y UNIDAD EN RUTA</div>
+          <div>El incidente cambió de estado: <span class="text-white">NUEVO &rarr; VALIDADO &rarr; DESPACHADO</span>. Se asignó automáticamente <span class="text-white font-bold">${c.unidad}</span> con tiempo de arribo estimado en ${c.eta}. Registro asentado con firma de operador en bitácora.</div>
+        `;
+      } else {
+        fb.innerHTML = `
+          <div class="text-amber-400 font-bold mb-1">⚡ FALSO POSITIVO DESCARTADO · AUTO-APRENDIZAJE ACTIVADO</div>
+          <div>La escena fue enviada al clasificador local como <span class="text-white">NORMAL</span>. Los 57 rasgos locales se calibraron en <span class="text-emerald-400 font-bold">1.2 segundos</span> en este equipo. Las alertas similares en esta cámara quedan amortiguadas sin costo alguno.</div>
+        `;
       }
     }
 
@@ -1837,219 +752,75 @@
      * 3. MAPA TÁCTICO LEAFLET DE EL AGUSTINO
      * -------------------------------------------------------------- */
     let map = null;
-    let layerSectores = null;
-    let layerCamaras = null;
-    let layerUnidades = null;
-    let layerSerenos = null;
-    let dispatchRouteLine = null;
+    const centroDistrito = [-12.0453, -76.9928];
 
-    function initTacticalMap() {
-      // Coordenadas aproximadas del centro de El Agustino (-12.0453, -76.9928)
-      map = L.map('tacticalMap', {
-        center: [-12.0453, -76.9928],
+    function initMap() {
+      map = L.map('mapaAgustino', {
+        center: centroDistrito,
         zoom: 14,
         zoomControl: false,
         attributionControl: false
       });
 
-      // Añadir control de zoom personalizado abajo a la derecha
-      L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-      // Teselas oscuras estilo CARTO Dark
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         maxZoom: 19,
         subdomains: 'abcd',
       }).addTo(map);
 
-      // Polígonos de Sectores de El Agustino (Coordenadas de config.js)
+      // Polígonos de sectores
       const sectores = [
-        {
-          nombre: 'SECTOR 1 · CENTRO', color: '#38BDF8',
-          poly: [[-12.0400, -76.9990], [-12.0392, -76.9895], [-12.0455, -76.9862], [-12.0498, -76.9915], [-12.0470, -76.9998]]
-        },
-        {
-          nombre: 'SECTOR 2 · RIBERA NORTE', color: '#22D3EE',
-          poly: [[-12.0318, -77.0060], [-12.0300, -76.9905], [-12.0392, -76.9895], [-12.0400, -76.9990], [-12.0362, -77.0058]]
-        },
-        {
-          nombre: 'SECTOR 3 · ESTE / ALTURAS', color: '#A78BFA',
-          poly: [[-12.0392, -76.9895], [-12.0330, -76.9790], [-12.0430, -76.9755], [-12.0505, -76.9840], [-12.0455, -76.9862]]
-        },
-        {
-          nombre: 'SECTOR 4 · SUR / VÍA CENTRAL', color: '#FFB020',
-          poly: [[-12.0498, -76.9915], [-12.0505, -76.9840], [-12.0580, -76.9855], [-12.0602, -76.9960], [-12.0530, -76.9985]]
-        },
-        {
-          nombre: 'SECTOR 5 · OESTE', color: '#F0ABFC',
-          poly: [[-12.0400, -76.9990], [-12.0470, -76.9998], [-12.0530, -76.9985], [-12.0545, -77.0075], [-12.0430, -77.0080], [-12.0362, -77.0058]]
-        }
+        { nombre: 'SECTOR 1 · CENTRO', color: '#38BDF8', poly: [[-12.0400, -76.9990], [-12.0392, -76.9895], [-12.0455, -76.9862], [-12.0498, -76.9915], [-12.0470, -76.9998]] },
+        { nombre: 'SECTOR 2 · RIBERA NORTE', color: '#22D3EE', poly: [[-12.0318, -77.0060], [-12.0300, -76.9905], [-12.0392, -76.9895], [-12.0400, -76.9990], [-12.0362, -77.0058]] },
+        { nombre: 'SECTOR 3 · ESTE / ALTURAS', color: '#A78BFA', poly: [[-12.0392, -76.9895], [-12.0330, -76.9790], [-12.0430, -76.9755], [-12.0505, -76.9840], [-12.0455, -76.9862]] },
+        { nombre: 'SECTOR 4 · SUR / VÍA CENTRAL', color: '#F59E0B', poly: [[-12.0498, -76.9915], [-12.0505, -76.9840], [-12.0580, -76.9855], [-12.0602, -76.9960], [-12.0530, -76.9985]] },
+        { nombre: 'SECTOR 5 · OESTE', color: '#F472B6', poly: [[-12.0400, -76.9990], [-12.0470, -76.9998], [-12.0530, -76.9985], [-12.0545, -77.0075], [-12.0430, -77.0080], [-12.0362, -77.0058]] }
       ];
 
-      layerSectores = L.layerGroup();
       sectores.forEach(s => {
-        const p = L.polygon(s.poly, {
+        L.polygon(s.poly, {
           color: s.color,
           weight: 1.5,
           fillColor: s.color,
-          fillOpacity: 0.12,
+          fillOpacity: 0.1,
           dashArray: '4, 4'
-        }).bindTooltip(s.nombre, { className: 'custom-leaflet-tooltip', permanent: false, direction: 'center' });
-        layerSectores.addLayer(p);
+        }).bindTooltip(s.nombre, { className: 'custom-tooltip', direction: 'center' }).addTo(map);
       });
-      layerSectores.addTo(map);
 
-      // Cámaras con cono de visión simulado
+      // Cámaras
       const camaras = [
-        { id: 'CAM-001', lat: -12.0432, lng: -76.9968, nombre: 'CAM-001 (Av. Riva Agüero)', tipo: 'PTZ / Inferencia' },
-        { id: 'CAM-002', lat: -12.0405, lng: -76.9946, nombre: 'CAM-002 (Av. 9 de Octubre)', tipo: 'Domo 360' },
-        { id: 'CAM-003', lat: -12.0455, lng: -76.9910, nombre: 'CAM-003 (Av. Mariátegui)', tipo: 'Fija Calzada' },
-        { id: 'CAM-004', lat: -12.0370, lng: -77.0000, nombre: 'CAM-004 (Santa Rosa)', tipo: 'PTZ' },
-        { id: 'CAM-006', lat: -12.0402, lng: -76.9852, nombre: 'CAM-006 (Av. Ancieta)', tipo: 'Fija LPR' },
-        { id: 'CAM-008', lat: -12.0522, lng: -76.9990, nombre: 'CAM-008 (Mercado Ayllón)', tipo: 'Fija Perímetro' }
+        { id: 'CAM-001', lat: -12.0432, lng: -76.9968, ref: 'Av. Riva Agüero / César Vallejo' },
+        { id: 'CAM-003', lat: -12.0455, lng: -76.9910, ref: 'Av. J.C. Mariátegui cdra. 6' },
+        { id: 'CAM-006', lat: -12.0402, lng: -76.9852, ref: 'Av. Ancieta cdra. 4' },
+        { id: 'CAM-008', lat: -12.0522, lng: -76.9990, ref: 'Av. Nicolás Ayllón cdra. 8' },
+        { id: 'CAM-010', lat: -12.0462, lng: -77.0018, ref: 'Av. Santa Rosa cdra. 9' }
       ];
 
-      layerCamaras = L.layerGroup();
       camaras.forEach(c => {
-        const marker = L.circleMarker([c.lat, c.lng], {
+        L.circleMarker([c.lat, c.lng], {
           radius: 6,
-          fillColor: '#E26D46',
+          fillColor: '#E67E52',
           color: '#FFFFFF',
           weight: 1.5,
-          fillOpacity: 0.9
-        }).bindTooltip(`<b>${c.id}</b><br>${c.nombre}<br><span style="color:#FFB020">${c.tipo}</span>`, { className: 'custom-leaflet-tooltip' });
-        layerCamaras.addLayer(marker);
-
-        // Cono de visión de ejemplo
-        const cono = L.polygon([
-          [c.lat, c.lng],
-          [c.lat - 0.0018, c.lng - 0.0012],
-          [c.lat - 0.0014, c.lng + 0.0016]
-        ], {
-          color: '#E26D46',
-          weight: 0.8,
-          fillColor: '#E26D46',
-          fillOpacity: 0.2
-        });
-        layerCamaras.addLayer(cono);
-      });
-      layerCamaras.addTo(map);
-
-      // Unidades Móviles (Patrullas y Motos)
-      const unidades = [
-        { id: 'M-01', lat: -12.0418, lng: -76.9955, tipo: 'Patrullero', estado: 'DISPONIBLE' },
-        { id: 'M-03', lat: -12.0412, lng: -76.9838, tipo: 'Patrullero', estado: 'EN RUTA' },
-        { id: 'MOTO-01', lat: -12.0442, lng: -76.9925, tipo: 'Moto Serenazgo', estado: 'PATRULLANDO' },
-      ];
-
-      layerUnidades = L.layerGroup();
-      unidades.forEach(u => {
-        const m = L.circleMarker([u.lat, u.lng], {
-          radius: 7,
-          fillColor: '#10B981',
-          color: '#FFFFFF',
-          weight: 2,
           fillOpacity: 0.95
-        }).bindTooltip(`<b>${u.id} (${u.tipo})</b><br>Estado: <span style="color:#10B981">${u.estado}</span>`, { className: 'custom-leaflet-tooltip' });
-        layerUnidades.addLayer(m);
+        }).bindTooltip(`<b>${c.id}</b><br>${c.ref}`, { className: 'custom-tooltip' }).addTo(map);
       });
-      layerUnidades.addTo(map);
 
-      // Serenos de a Pie (GPS en Vivo)
-      const serenos = [
-        { id: 'SER-014', lat: -12.0438, lng: -76.9972, nombre: 'Sereno J. Mendoza', estado: 'A PIE / RIVA AGÜERO' },
-        { id: 'SER-021', lat: -12.0385, lng: -76.9810, nombre: 'Sereno C. Huamán', estado: 'A PIE / CERRO SAN PEDRO' }
-      ];
+      // Patrulleros y Serenos
+      L.circleMarker([-12.0418, -76.9955], {
+        radius: 7, fillColor: '#10B981', color: '#FFFFFF', weight: 2, fillOpacity: 1
+      }).bindTooltip('<b>Patrullero M-01</b><br>Estado: DISPONIBLE', { className: 'custom-tooltip' }).addTo(map);
 
-      layerSerenos = L.layerGroup();
-      serenos.forEach(s => {
-        const sm = L.circleMarker([s.lat, s.lng], {
-          radius: 5.5,
-          fillColor: '#FFB020',
-          color: '#FFFFFF',
-          weight: 1.5,
-          fillOpacity: 1
-        }).bindTooltip(`<b>${s.id} · ${s.nombre}</b><br><span style="color:#FFB020">${s.estado}</span>`, { className: 'custom-leaflet-tooltip' });
-        layerSerenos.addLayer(sm);
-      });
-      layerSerenos.addTo(map);
+      L.circleMarker([-12.0438, -76.9972], {
+        radius: 5.5, fillColor: '#F59E0B', color: '#FFFFFF', weight: 1.5, fillOpacity: 1
+      }).bindTooltip('<b>Sereno a Pie SER-014</b><br>Patrullando Riva Agüero', { className: 'custom-tooltip' }).addTo(map);
     }
 
-    function toggleMapLayer(tipo) {
-      if (tipo === 'sectores') {
-        const btn = document.getElementById('layerBtnSectores');
-        if (map.hasLayer(layerSectores)) {
-          map.removeLayer(layerSectores);
-          btn.classList.replace('bg-tactical-cyan/20', 'bg-obsidian-800');
-          btn.innerText = 'Sectores (Off)';
-        } else {
-          map.addLayer(layerSectores);
-          btn.classList.replace('bg-obsidian-800', 'bg-tactical-cyan/20');
-          btn.innerText = '✓ 5 Sectores';
-        }
-      } else if (tipo === 'camaras') {
-        const btn = document.getElementById('layerBtnCamaras');
-        if (map.hasLayer(layerCamaras)) {
-          map.removeLayer(layerCamaras);
-          btn.classList.replace('bg-terracotta-500/20', 'bg-obsidian-800');
-          btn.innerText = 'Cámaras (Off)';
-        } else {
-          map.addLayer(layerCamaras);
-          btn.classList.replace('bg-obsidian-800', 'bg-terracotta-500/20');
-          btn.innerText = '✓ 12 Cámaras Muestra';
-        }
-      } else if (tipo === 'unidades') {
-        const btn = document.getElementById('layerBtnUnidades');
-        if (map.hasLayer(layerUnidades)) {
-          map.removeLayer(layerUnidades);
-          btn.classList.replace('bg-tactical-emerald/20', 'bg-obsidian-800');
-          btn.innerText = 'Patrullas (Off)';
-        } else {
-          map.addLayer(layerUnidades);
-          btn.classList.replace('bg-obsidian-800', 'bg-tactical-emerald/20');
-          btn.innerText = '✓ Patrullas & Motos';
-        }
-      } else if (tipo === 'serenos') {
-        const btn = document.getElementById('layerBtnSerenos');
-        if (map.hasLayer(layerSerenos)) {
-          map.removeLayer(layerSerenos);
-          btn.classList.replace('bg-tactical-amber/20', 'bg-obsidian-800');
-          btn.innerText = 'Serenos de Pie (Off)';
-        } else {
-          map.addLayer(layerSerenos);
-          btn.classList.replace('bg-obsidian-800', 'bg-tactical-amber/20');
-          btn.innerText = '✓ Serenos de a Pie';
-        }
-      }
+    function centrarMapa() {
+      if (map) map.setView(centroDistrito, 14);
     }
 
-    function simularDespachoEnMapa() {
-      if (dispatchRouteLine) {
-        map.removeLayer(dispatchRouteLine);
-      }
-      // Trazar ruta desde Patrullero M-01 hacia CAM-001 (Incidente activo)
-      const ruta = [
-        [-12.0418, -76.9955],
-        [-12.0425, -76.9960],
-        [-12.0432, -76.9968]
-      ];
-      dispatchRouteLine = L.polyline(ruta, {
-        color: '#E26D46',
-        weight: 4,
-        dashArray: '8, 8',
-        opacity: 0.9
-      }).addTo(map);
-
-      map.fitBounds(dispatchRouteLine.getBounds(), { padding: [50, 50] });
-
-      L.popup({ className: 'custom-leaflet-tooltip' })
-        .setLatLng([-12.0432, -76.9968])
-        .setContent('<b>DESPACHO EN CURSO (RUTEO A*)</b><br>Unidad: Patrullero M-01<br>Distancia: 280 m | ETA: 1m 35s')
-        .openOn(map);
-    }
-
-    // Inicializar mapa al cargar
     window.addEventListener('DOMContentLoaded', () => {
-      initTacticalMap();
+      initMap();
     });
   </script>
 </body>

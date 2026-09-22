@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>VIGÍA · Ingeniería de Producto FII-UNMSM — Demo en vivo</title>
-<meta name="description" content="VIGÍA — Plataforma on-premise para 233 cámaras de El Agustino. Curso Ingeniería de Producto FII-UNMSM. Videoanalítica local, validación humana, PWA campo. Prueba el programa dentro de la landing.">
+<title>VIGÍA · Ingeniería de Producto FII-UNMSM — El Agustino</title>
+<meta name="description" content="VIGÍA — Plataforma on-premise para 233 cámaras de El Agustino. Curso Ingeniería de Producto FII-UNMSM. Videoanalítica local, validación humana, PWA campo. Simulador, video y capturas; la consola se prueba en local.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="vendor/leaflet.css">
 <link rel="stylesheet" href="css/landing.css">
@@ -16,18 +16,18 @@
 <div class="topbar"><div class="topbar-in">
   <a class="brand glass" href="#top"><i></i><b>Vigía</b><span>El Agustino · FII-UNMSM</span></a>
   <nav class="menu glass" aria-label="Secciones">
-    <a href="#desafio">Desafío</a><a href="#comparador">IA</a><a href="#simulador">Simulador</a><a href="#mapa">Mapa</a><a href="#como">Cómo funciona</a><a href="#usar-en-vivo" class="hot">Probar en vivo</a>
+    <a href="#desafio">Desafío</a><a href="#comparador">IA</a><a href="#simulador">Simulador</a><a href="#mapa">Mapa</a><a href="#como">Cómo funciona</a><a href="#usar-en-vivo" class="hot">Demo</a>
   </nav>
-  <a class="btn" href="#usar-en-vivo">INGRESAR A VIGÍA →</a>
+  <a class="btn" href="#usar-en-vivo">VER LA DEMO →</a>
 </div></div>
 
 <header class="hero" id="top"><div class="hero-bg"><img src="assets/calle_agustino.jpg" alt="Calles de El Agustino"></div><div class="hero-glow"></div>
 <div class="wrap hero-in">
   <div class="badge glass">● Ingeniería de Producto · FII-UNMSM · Taller 2 · Prototipo operable</div>
   <h1>Donde 233 cámaras vigilaban a ciegas, <em style="color:var(--terra)">VIGÍA</em> devuelve el auxilio en &lt;5s.</h1>
-  <p class="lead">Curso Ingeniería de Producto — prototipo operable, no maqueta. 6 operadores × 38 pantallas. Tras 20 min la atención cae a la mitad. Solo el 13% se vigila real. VIGÍA une visión local + criterio humano: la IA propone, el operador dispone. Pruébalo <b style="color:#fff">corriendo dentro de esta página</b> en #usar-en-vivo.</p>
+  <p class="lead">Curso Ingeniería de Producto — prototipo operable, no maqueta. 6 operadores × 38 pantallas. Tras 20 min la atención cae a la mitad. Solo el 13% se vigila real. VIGÍA une visión local + criterio humano: la IA propone, el operador dispone. Pruébalo en el <b style="color:#fff">simulador interactivo</b> de abajo; la consola real se prueba en local (#usar-en-vivo).</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
-    <a class="btn" id="btnProbar" href="#usar-en-vivo">▶ PROBAR PROGRAMA EN VIVO</a>
+    <a class="btn" id="btnProbar" href="#usar-en-vivo">▶ VER DEMO</a>
     <button class="btn ghost" id="btnVideoES" type="button">Ver video explicativo 90s</button>
   </div>
   <div class="metrics"><div><b data-count="233">233</b><span>Cámaras 24/7</span></div><div><b style="color:var(--terra)">&lt;5s</b><span>Detección</span></div><div><b style="color:var(--emer)" data-count="100">100%</b><span>Validación humana</span></div><div><b style="color:var(--cyan)">0</b><span>Datos biométricos Ley 29733</span></div></div>
@@ -96,16 +96,17 @@
 </div></section>
 
 <section class="blk" id="usar-en-vivo"><div class="wrap rv">
-<div class="kicker">13 · Usa el programa aquí dentro</div><h2>El programa corriendo en la landing.</h2>
-<p class="lead">Pulsa PROBAR: se carga la consola real (index.html) en iframe mismo-origen. Permite cámara. D demo · S sismo · Ctrl+K · M audio.</p>
+<div class="kicker">13 · Demo del programa</div><h2>La consola se prueba en local.</h2>
+<p class="lead">La consola necesita cámara, micrófono y el servicio local (localhost:8080 + :8008), así que en este hosting estático no se puede embeber. Para probarla en tu PC descarga el proyecto y haz doble clic en <b>DEMO_LANDING.bat</b>.</p>
 <div class="acceso glass2">
-<div class="svc" id="svcPill"><i></i><span>Comprobando servicio…</span></div>
-<div class="cards3"><div class="appcard"><h4>🖥 Consola</h4><p>Operación, mapa, incidentes, cámaras, unidades, campo, reportes.</p><button class="btn ambar" id="btnProbar2" type="button">▶ CARGAR CONSOLA</button></div>
-<div class="appcard"><h4>📱 Campo PWA</h4><p>Sereno SER-014 / PIN 1404. Ciudadano anónimo.</p><a class="btn ghost" href="campo/index.html" target="_blank">Abrir campo →</a></div>
-<div class="appcard"><h4>🧪 Taller</h4><p>Herramienta dev: grabar 3s, entrenar, guardar clasificador.</p><a class="btn ghost" href="taller.html" target="_blank">Abrir taller →</a></div></div>
-<div class="framewrap" id="frameWrap"><div id="frameSkeleton" style="padding:28px;font-family:monospace;color:var(--mut);font-size:12px">Consola lista para cargar — 1 clic. Modo lite COCO-SSD 18MB instantáneo, luego botón IA Full.</div><iframe id="frameVigia" title="VIGÍA en vivo" allow="camera; geolocation; microphone=()" loading="lazy" style="min-height:200px"></iframe><div class="framebar"><span id="frameHint">Sin cargar — pulsa CARGAR CONSOLA (gesto exigido por el navegador para cámara).</span><span><button class="btn ghost" id="btnFull" type="button">⛶ Pantalla completa</button> <button class="btn ghost" id="btnLite" type="button">⚡ Cargar lite</button> <button class="btn ghost" id="btnFullIA" type="button">🧠 IA Full 116MB</button> <a class="btn ghost" href="index.html?origen=landing&lite=1" target="_blank">Abrir aparte →</a></span></div></div>
-<details class="eval"><summary>Soy docente / equipo — ver accesos demo</summary><table class="t"><tr><th>Rol</th><th>User</th><th>Pass</th></tr><tr><td>Operador</td><td>operador</td><td>vigia-demo-opera</td></tr><tr><td>Supervisor</td><td>supervisor</td><td>vigia-demo-super</td></tr><tr><td>Admin</td><td>admin</td><td>vigia-demo-admin</td></tr><tr><td>Soporte</td><td>soporte</td><td>vigia-demo-sopor</td></tr></table><p class="mono" style="color:var(--mut)">Sin :8008 entra en MODO LOCAL (identidad declarada). Cámara solo en localhost:8080, no doble-clic.</p></details>
-</div></div></section>
+<div class="svc"><i></i><span>🌐 Versión pública: simulador + video + capturas</span></div>
+<div class="cards3"><div class="appcard"><h4>🖥 Consola</h4><p>Operación, mapa, incidentes, cámaras, unidades, campo, reportes.</p><p class="mono" style="font-size:11px">Demo local: <b>DEMO_LANDING.bat</b> → http://localhost:8080/landing.html</p></div>
+<div class="appcard"><h4>📱 Campo PWA</h4><p>Sereno SER-014 / PIN 1404. Ciudadano anónimo.</p><p class="mono" style="font-size:11px">Demo local: <b>campo/index.html</b> con el servidor corriendo.</p></div>
+<div class="appcard"><h4>🧪 Taller</h4><p>Herramienta dev: grabar 3s, entrenar, guardar clasificador.</p><p class="mono" style="font-size:11px">Demo local: <b>taller.html</b> con el servidor corriendo.</p></div></div>
+<div class="framebar"><span>🌐 En la demo local aquí corre la consola viva con cámara. En la web: simulador de arriba, video y capturas.</span><span><a class="btn ghost" href="https://github.com/Joaquin-Allasi/vigia-landing" target="_blank" rel="noopener">Ver código →</a></span></div>
+</div>
+<details class="eval"><summary>Soy docente / equipo — accesos de la demo local</summary><table class="t"><tr><th>Rol</th><th>User</th><th>Pass</th></tr><tr><td>Operador</td><td>operador</td><td>vigia-demo-opera</td></tr><tr><td>Supervisor</td><td>supervisor</td><td>vigia-demo-super</td></tr><tr><td>Admin</td><td>admin</td><td>vigia-demo-admin</td></tr><tr><td>Soporte</td><td>soporte</td><td>vigia-demo-sopor</td></tr></table><p class="mono" style="color:var(--mut)">Requiere DEMO_LANDING.bat (localhost:8080 + :8008). Sin :8008 entra en MODO LOCAL.</p></details>
+</div></section>
 
 <footer><div class="wrap topline"><div><em style="font-family:var(--font-ed)">Vigía</em> · Videoanalítica El Agustino · FII-UNMSM · Ingeniería de Producto</div><div>12 cámaras demo · RF-DETR local · 100% validación humana</div></div></footer>
 <div class="modal" id="videoModal"><div class="boxm"><video id="videoEl" controls playsinline preload="none" poster="assets/calle_agustino.jpg"></video><div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#0B0D12"><span class="mono" id="videoMeta" style="font-size:11px;color:var(--mut)">Video local comprimido · clic fuera o Esc para cerrar</span><button class="btn ghost" id="videoClose" type="button">Cerrar ✕</button></div></div></div>

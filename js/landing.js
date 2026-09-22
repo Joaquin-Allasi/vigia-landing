@@ -116,6 +116,7 @@ window.abrirVideo=function(lang){
   var m=$('#videoModal'), v=$('#videoEl'), meta=$('#videoMeta'); if(!m||!v)return;
   v.poster='assets/calle_agustino.jpg'; v.preload='none';
   v.src='assets/video/explicador-ES.mp4';
+  v.onerror=function(){var mt=document.getElementById('videoMeta');if(mt)mt.textContent='Video disponible solo en la demo local (assets/video/explicador-ES.mp4).';};
   if(meta)meta.textContent='Video local ES · 34MB · streaming por rangos — si publicas, comprime a 720p ~8MB con ffmpeg';
   m.classList.add('open');
   try{v.load(); var pr=v.play(); if(pr&&pr.catch)pr.catch(function(){})}catch(e){}
@@ -171,3 +172,6 @@ document.addEventListener('DOMContentLoaded',function(){
   },{passive:true});
 });
 })();
+
+/* OVERRIDE VERSIÓN PÚBLICA: hosting estático sin consola embebida; los botones de demo solo llevan a la vitrina #usar-en-vivo. */
+window.probarVigia=function(){var s=document.getElementById('usar-en-vivo');if(s)s.scrollIntoView({behavior:'smooth',block:'center'});};

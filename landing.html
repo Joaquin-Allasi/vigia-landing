@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>VIGÍA · Ingeniería de Producto FII-UNMSM — Demo en vivo</title>
+<meta name="description" content="VIGÍA — Plataforma on-premise para 233 cámaras de El Agustino. Curso Ingeniería de Producto FII-UNMSM. Videoanalítica local, validación humana, PWA campo. Prueba el programa dentro de la landing.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="css/landing.css">
+<script src="vendor/leaflet.js" defer></script>
+<script src="js/landing.js" defer></script>
+</head>
+<body>
+<div class="topbar"><div class="topbar-in">
+  <a class="brand glass" href="#top"><i></i><b>Vigía</b><span>El Agustino · FII-UNMSM</span></a>
+  <nav class="menu glass" aria-label="Secciones">
+    <a href="#desafio">Desafío</a><a href="#comparador">IA</a><a href="#simulador">Simulador</a><a href="#mapa">Mapa</a><a href="#como">Cómo funciona</a><a href="#usar-en-vivo" class="hot">Probar en vivo</a>
+  </nav>
+  <a class="btn" href="#usar-en-vivo">INGRESAR A VIGÍA →</a>
+</div></div>
+
+<header class="hero" id="top"><div class="hero-bg"><img src="assets/calle_agustino.jpg" alt="Calles de El Agustino"></div><div class="hero-glow"></div>
+<div class="wrap hero-in">
+  <div class="badge glass">● Ingeniería de Producto · FII-UNMSM · Taller 2 · Prototipo operable</div>
+  <h1>Donde 233 cámaras vigilaban a ciegas, <em style="color:var(--terra)">VIGÍA</em> devuelve el auxilio en &lt;5s.</h1>
+  <p class="lead">Curso Ingeniería de Producto — prototipo operable, no maqueta. 6 operadores × 38 pantallas. Tras 20 min la atención cae a la mitad. Solo el 13% se vigila real. VIGÍA une visión local + criterio humano: la IA propone, el operador dispone. Pruébalo <b style="color:#fff">corriendo dentro de esta página</b> en #usar-en-vivo.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+    <a class="btn" id="btnProbar" href="#usar-en-vivo">▶ PROBAR PROGRAMA EN VIVO</a>
+    <button class="btn ghost" id="btnVideoES" type="button">Ver video explicativo 90s</button>
+  </div>
+  <div class="metrics"><div><b data-count="233">233</b><span>Cámaras 24/7</span></div><div><b style="color:var(--terra)">&lt;5s</b><span>Detección</span></div><div><b style="color:var(--emer)" data-count="100">100%</b><span>Validación humana</span></div><div><b style="color:var(--cyan)">0</b><span>Datos biométricos Ley 29733</span></div></div>
+</div></header>
+
+<section class="blk" id="desafio"><div class="wrap grid2 rv">
+<div><div class="kicker">01 · La realidad</div><h2>No es falta de voluntad.<br><span style="color:var(--mut)">Es límite biológico.</span></h2>
+<p class="lead">Sala en penumbra, pared de 233 vivos: Puente Nuevo, Riva Agüero, Cerro San Pedro. 6 ops por turno. Factor atención 0.55 tras monotonía. Resultado: 87% en silencio, cámaras solo como grabadora forense.</p>
+<div class="chips"><span>38 pantallas / operador</span><span>Rendimiento 12.7%</span><span>Fatiga 20 min</span></div></div>
+<div><div class="card glass2"><img src="assets/atencion_cctv.png" alt="Curva fatiga CCTV" data-zoom loading="lazy"></div><div class="cap"><span>Habituación visual — clic para ampliar</span><span style="color:var(--terra)">12.7%</span></div>
+<div class="card glass2" style="margin-top:12px"><img src="assets/curva_valor_vigia.png" alt="Curva valor" data-zoom loading="lazy"></div><div class="cap"><span>Curva de valor — clic para ampliar</span><span> full-res</span></div></div>
+</div></section>
+
+<section class="blk" id="comparador"><div class="wrap rv">
+<div class="kicker">02 · Transformación IA</div><h2>Arrastra y comprueba.</h2>
+<p class="lead">Izq: operador agotado. Der: RF-DETR Medium 78ms segmentando en local, sin nube.</p>
+<div class="slider" id="splitSlider"><img src="assets/deteccion_ia.png" alt="Con VIGÍA" data-zoom loading="lazy"><div class="before" id="splitBefore"><img src="assets/muestra_calle_1.jpg" alt="Sin VIGÍA"></div><div class="handle" id="splitHandle"><span>↔</span></div><span class="tag l">● CIEGO 13%</span><span class="tag r">● VIGÍA 24/7</span></div>
+<p class="mono" style="text-align:center;color:var(--dim);font-size:11px">Arrastra · clic en la imagen para verla full-res · <button class="btn ghost" id="btnFullSlider" type="button" style="padding:4px 10px">⛶ Ampliar comparador</button></p>
+<div class="chips" style="justify-content:center;margin-top:10px"><button type="button" data-calle="assets/muestra_calle_1.jpg">Calle 1</button><button type="button" data-calle="assets/muestra_calle_2.jpg">Calle 2</button><button type="button" data-calle="assets/muestra_calle_3.jpg">Calle 3</button><button type="button" data-calle="assets/muestra_calle_4.jpg">Calle 4</button><button type="button" data-calle="assets/muestra_calle_5.jpg">Calle 5</button></div>
+</div></section>
+
+<section class="blk" id="simulador"><div class="wrap rv">
+<div class="kicker">03 · Simulador humano-in-the-loop</div><h2>Ponte en la Central.</h2>
+<p class="lead">La IA nunca decide sola. Valida o descarta y el sistema aprende.</p>
+<div class="sim">
+<div><div class="cases"><button id="btnCaso1" data-caso="1" class="on" type="button">Caso 1: Gresca</button><button id="btnCaso2" data-caso="2" type="button">Caso 2: Falso positivo</button><button id="btnCaso3" data-caso="3" type="button">Caso 3: Caído</button></div>
+<div class="view"><img id="simImg" src="assets/muestra_calle_1.jpg" alt="Escena" data-zoom><div class="box" id="simBox"><b id="simTag">POSIBLE GRESCA 94%</b><small id="simDetail">RF-DETR 2 personas</small></div><div class="hud" id="simCam">CAM-001 · Riva Agüero 5</div></div></div>
+<div class="decide glass2"><div class="mono" style="font-size:11px;color:var(--terra)">HIPÓTESIS IA · 78ms</div><h3 id="simTitulo">Posible Gresca</h3><p class="lead" id="simDesc" style="font-size:13px">2 personas contacto + agitación 1.8s.</p>
+<div class="kv"><div>DESPACHO A*:</div><div><b id="simUni">Patrullero M-01</b> · <span id="simEta" style="color:var(--cyan)">ETA 1m40s</span></div><div id="simRuta" style="color:var(--mut)">Av. César Vallejo × Jr. Áncash</div></div>
+<div class="stack"><button data-decide="validar" type="button" style="background:var(--terra2);color:#fff;border:0">✓ VALIDAR Y DESPACHAR</button><button data-decide="descartar" type="button">✕ DESCARTAR (aprende)</button></div><div id="fb" style="display:none"></div></div>
+</div></div></section>
+
+<section class="blk" id="mapa"><div class="wrap rv">
+<div class="kicker">04 · Cartografía</div><h2>El Agustino en vivo.</h2>
+<p class="lead">5 sectores, conos, patrulleros, serenos. Grafo vial A* propio. Offline vía vendor/teselas.</p>
+<div class="mapbox"><div id="mapaAgustino"></div><div style="position:absolute;top:12px;right:12px;z-index:20"><button class="btn ghost" id="btnCenter" type="button">Recentrar</button></div><div class="legend glass"><span><i class="dot" style="background:var(--terra)"></i>Cámaras</span><span><i class="dot" style="background:var(--emer)"></i>Patrulleros</span><span><i class="dot" style="background:var(--ambar)"></i>Serenos</span></div></div>
+</div></section>
+
+<section class="blk" id="terreno"><div class="wrap grid2 rv">
+<div style="display:flex;justify-content:center"><img src="assets/aida_app_mockup.png" alt="PWA campo" data-zoom loading="lazy" style="max-width:420px;width:100%;border-radius:18px;border:1px solid var(--line2)"></div>
+<div><div class="kicker">05 · Calle, no servidores</div><h2>Respuesta en la calle.</h2><p class="lead">PWA instalable: código + PIN, GPS vivo, despacho A* 14min→3m40s, offline Cerro San Pedro con cola. Canal vecinal anónimo REP-XXXX.</p><div class="chips"><span>Offline</span><span>Sin licencia/usuario</span><span>Anónimo</span></div></div>
+</div></section>
+
+<section class="blk" id="como"><div class="wrap rv">
+<div class="kicker">07 · Cómo funciona punta a punta</div><h2>Todo el proyecto en 1 diagrama.</h2>
+<div class="bento">
+<div class="cell glass"><div class="num" style="background:rgba(230,126,82,.15);color:var(--terra)">01</div><h3>Consola (navegador)</h3><p>index.html + js/ vanilla. Video nunca sale. RF-DETR Medium 116MB WebGPU 88ms / WASM 247ms, ByteTrack 0.225, 9 reglas con evidencia objeto, 57 rasgos.</p></div>
+<div class="cell glass"><div class="num" style="background:rgba(56,189,248,.15);color:var(--cyan)">02</div><h3>Servicio :8008</h3><p>FastAPI + SQLite WAL. Capas rutas/servicios/repos. Auth PBKDF2, 4 roles, auditoría SHA-256, WS por permiso. Sin servicio → MODO LOCAL declarado.</p></div>
+<div class="cell glass"><div class="num" style="background:rgba(16,185,129,.15);color:var(--emer)">03</div><h3>Campo + Taller + Banco</h3><p>campo/ PWA sereno/ciudadano offline. taller.html entrena clasificador. banco/ 10 detectores 56 frames 1075 objs. banco-incidentes/ secuencias.</p></div>
+</div>
+<table class="t"><tr><th>Evento</th><th>Evidencia exigida</th><th>Prioridad</th></tr><tr><td>GRESCA</td><td>≥2 personas contacto + agitación 1.5s</td><td>ALTA</td></tr><tr><td>AGLOMERACIÓN</td><td>≥12 pistas 1.8s</td><td>MEDIA</td></tr><tr><td>SUELO</td><td>vertical→horizontal inmóvil</td><td>CRÍTICA</td></tr><tr><td>BASURA/DESMONTE</td><td>bulto &gt;2.6s + persona + horario</td><td>MEDIA/ALTA</td></tr><tr><td>HUMO/INCENDIO</td><td>fotométrico − exclusión persona 35%</td><td>CRÍTICA</td></tr></table>
+</div></section>
+
+<section class="blk" id="roles"><div class="wrap grid2 rv">
+<div><div class="kicker">08 · Roles y ciclo</div><h2>Nada se despacha solo.</h2><p class="lead">Máquina NUEVO→VALIDADO→DESPACHADO→ATENCIÓN→CERRADO espejo consola/servidor. Lenguaje no acusatorio “posible…”.</p>
+<table class="t"><tr><th>Usuario</th><th>Pass demo</th><th>Puede</th></tr><tr><td>operador</td><td class="mono">vigia-demo-opera</td><td>validar/descartar/despachar</td></tr><tr><td>supervisor</td><td class="mono">vigia-demo-super</td><td>+ cerrar/derivar/auditar</td></tr><tr><td>admin</td><td class="mono">vigia-demo-admin</td><td>+ padrón</td></tr><tr><td>soporte</td><td class="mono">vigia-demo-sopor</td><td>cámaras, no incidentes</td></tr></table></div>
+<div><div class="kicker">09 · Cámaras demo</div><h2>12 + 4 + móvil.</h2><p class="lead">CAM-001 webcam real. CAM-002–012 sim. 4 NYSDOT HLS públicas 352x240 (no municipales). Móvil IP Webcam 1080p vía /camara solo red local. RTSP muni = fase futura con convenio.</p><div class="chips"><span>CAM-001 real</span><span>11 sim</span><span>4 NY HLS</span><span>Móvil MJPEG</span></div>
+<div class="card glass2" style="margin-top:12px"><img src="assets/muestra_calle_2.jpg" alt="Muestra calle 2" data-zoom loading="lazy"></div><div class="cap"><span>Evidencia campo — clic para ampliar</span></div>
+<div class="card glass2" style="margin-top:12px"><img src="assets/muestra_calle_5.jpg" alt="Muestra calle 5" data-zoom loading="lazy"></div></div>
+</div></section>
+
+<section class="blk" id="concurso"><div class="wrap rv">
+<div class="kicker">06 · Producto + despliegue</div><h2>Soberano, ético, comprable.</h2>
+<div class="bento"><div class="cell glass"><h3>On-premise</h3><p>Hardware existente, open-source Apache/MIT, cero $/cámara, video sin internet.</p></div><div class="cell glass"><h3>Ley 29733</h3><p>Cero facial, patrones geométricos, validación humana obligatoria.</p></div><div class="cell glass"><h3>8 UIT S/44k</h3><p>Ley 32069 Art.34 piloto 10 cámaras críticas.</p></div></div>
+<p class="lead" style="font-size:12px">Límites honestos: 1 cámara/navegador, SQLite 1 instancia, datos sim salvo video, requiere Chrome HW (no Basic Render) + localhost:8080 + descargar_mapa.py offline. Curso Ingeniería de Producto · FII-UNMSM · Equipo: Espejo Ferreyra · Jaime Allasi · Palomino Corrales.</p>
+</div></section>
+
+<section class="blk" id="usar-en-vivo"><div class="wrap rv">
+<div class="kicker">13 · Usa el programa aquí dentro</div><h2>El programa corriendo en la landing.</h2>
+<p class="lead">Pulsa PROBAR: se carga la consola real (index.html) en iframe mismo-origen. Permite cámara. D demo · S sismo · Ctrl+K · M audio.</p>
+<div class="acceso glass2">
+<div class="svc" id="svcPill"><i></i><span>Comprobando servicio…</span></div>
+<div class="cards3"><div class="appcard"><h4>🖥 Consola</h4><p>Operación, mapa, incidentes, cámaras, unidades, campo, reportes.</p><button class="btn ambar" id="btnProbar2" type="button">▶ CARGAR CONSOLA</button></div>
+<div class="appcard"><h4>📱 Campo PWA</h4><p>Sereno SER-014 / PIN 1404. Ciudadano anónimo.</p><a class="btn ghost" href="campo/index.html" target="_blank">Abrir campo →</a></div>
+<div class="appcard"><h4>🧪 Taller</h4><p>Herramienta dev: grabar 3s, entrenar, guardar clasificador.</p><a class="btn ghost" href="taller.html" target="_blank">Abrir taller →</a></div></div>
+<div class="framewrap" id="frameWrap"><div id="frameSkeleton" style="padding:28px;font-family:monospace;color:var(--mut);font-size:12px">Consola lista para cargar — 1 clic. Modo lite COCO-SSD 18MB instantáneo, luego botón IA Full.</div><iframe id="frameVigia" title="VIGÍA en vivo" allow="camera; geolocation; microphone=()" loading="lazy" style="min-height:200px"></iframe><div class="framebar"><span id="frameHint">Sin cargar — pulsa CARGAR CONSOLA (gesto exigido por el navegador para cámara).</span><span><button class="btn ghost" id="btnFull" type="button">⛶ Pantalla completa</button> <button class="btn ghost" id="btnLite" type="button">⚡ Cargar lite</button> <button class="btn ghost" id="btnFullIA" type="button">🧠 IA Full 116MB</button> <a class="btn ghost" href="index.html?origen=landing&lite=1" target="_blank">Abrir aparte →</a></span></div></div>
+<details class="eval"><summary>Soy docente / equipo — ver accesos demo</summary><table class="t"><tr><th>Rol</th><th>User</th><th>Pass</th></tr><tr><td>Operador</td><td>operador</td><td>vigia-demo-opera</td></tr><tr><td>Supervisor</td><td>supervisor</td><td>vigia-demo-super</td></tr><tr><td>Admin</td><td>admin</td><td>vigia-demo-admin</td></tr><tr><td>Soporte</td><td>soporte</td><td>vigia-demo-sopor</td></tr></table><p class="mono" style="color:var(--mut)">Sin :8008 entra en MODO LOCAL (identidad declarada). Cámara solo en localhost:8080, no doble-clic.</p></details>
+</div></div></section>
+
+<footer><div class="wrap topline"><div><em style="font-family:var(--font-ed)">Vigía</em> · Videoanalítica El Agustino · FII-UNMSM · Ingeniería de Producto</div><div>12 cámaras demo · RF-DETR local · 100% validación humana</div></div></footer>
+<div class="modal" id="videoModal"><div class="boxm"><video id="videoEl" controls playsinline preload="none" poster="assets/calle_agustino.jpg"></video><div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:#0B0D12"><span class="mono" id="videoMeta" style="font-size:11px;color:var(--mut)">Video local comprimido · clic fuera o Esc para cerrar</span><button class="btn ghost" id="videoClose" type="button">Cerrar ✕</button></div></div></div>
+<div class="modal" id="lightbox"><div class="boxm" style="background:#0B0D12"><img id="lightImg" alt="Ampliada" style="width:100%;max-height:78vh;object-fit:contain;background:#000"><div style="display:flex;justify-content:flex-end;padding:10px"><button class="btn ghost" id="lightClose" type="button">Cerrar ✕</button></div></div></div>
+<div id="progressTop" style="position:fixed;top:0;left:0;height:3px;width:0;background:var(--terra);z-index:99"></div>
+</body>
+</html>
